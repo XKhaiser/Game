@@ -1,0 +1,49 @@
+body {
+  height: 100vh;
+  overflow: hidden !important;
+}
+body .game #hero {
+  width: 1vw;
+  height: 1vw;
+  background: gainsboro;
+  border-radius: 999px;
+  border: 1px solid gray;
+}
+body .game #range {
+  border-radius: 9999px;
+  border: 1px solid gray;
+  background: #0001;
+  position: absolute;
+  width: 600px;
+  height: 600px;
+}
+body .game .projectile {
+  width: 0.5vw;
+  height: 0.5vw;
+  position: absolute;
+  background: magenta;
+  border-radius: 999px;
+}
+body .game .enemy {
+  width: 1vw;
+  height: 1vw;
+  position: absolute;
+  background: red;
+}
+body .game .hud {
+  bottom: 0;
+  padding: 5rem;
+  z-index: 1;
+}
+body .game .hud .status .health .progress {
+  height: 20px;
+  border-radius: 6px 6px 6px 0 !important;
+}
+body .game .hud .status .mana .progress {
+  height: 16px;
+  border-radius: 0 0 6px 6px !important;
+}
+body .game .hud .money {
+  color: gold;
+  text-shadow: 0 0 3px #000;
+}
