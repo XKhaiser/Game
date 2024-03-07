@@ -23,6 +23,7 @@ $(document).ready(function(){
     var cdCounter = 0;
     var eneID = 0;
     var enemySpeed = 15000;
+    var bulSpeed = 1300;
     var closestElement;
     var minDistance = 200;
 
@@ -77,7 +78,7 @@ $(document).ready(function(){
         $("#bul" + projID).animate({
             top: endPos.top + "px",
             left: endPos.left + "px"
-        }, 1000, "linear", function() {
+        }, bulSpeed, "linear", function() {
             $(this).remove();
         })
 
@@ -96,6 +97,14 @@ $(document).ready(function(){
         $("#rangeBtn").off("click").on("click", function() {
             minDistance = minDistance + 5;
             $("#range").css("width", minDistance * 2 + "px").css("height", minDistance * 2 + "px");
+            var cost = Number($(this).data().cost);
+            money = money - cost;
+            cost = cost + (cost * 0.5);
+            $(this).data("cost", cost)
+            checkMoney()
+        })
+        $("#bulSpeed").off("click").on("click", function() {
+            bulSpeed = bulSpeed - bulSpeed * 0.13;
             var cost = Number($(this).data().cost);
             money = money - cost;
             cost = cost + (cost * 0.5);
@@ -165,21 +174,14 @@ $(document).ready(function(){
                     enemyPos.left = $(enemy).position().left;
 
                 var distance = Math.sqrt(Math.pow((enemyPos.left - bulletPos.left), 2) + Math.pow((enemyPos.top - bulletPos.top), 2));
-                if (distance <= 28) {
+                if (distance <= 25) {
                     $(bullet).remove();
                     $(enemy).remove();
                     enemyCd = enemyCd - enemyCd * 0.02;
                     enemySpeed = enemySpeed - enemySpeed * 0.002;
 
                     money += 1;
-                    $(".money h2 span").html(money);
-
-                    $.each($(".bottom button"), function(m, button){
-                        console.log($(button).data("cost"))
-                        if (money >= Number($(button).data("cost"))) {
-                            $(button).removeClass("disabled")
-                        }
-                    })
+                    checkMoney();
                 }
             })
         })
