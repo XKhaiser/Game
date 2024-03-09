@@ -1,12 +1,14 @@
 body {
   height: 100vh;
   overflow: hidden !important;
+  font-family: 'Teko', sans-serif;
 }
 body .game #hero {
   width: 1vw;
   height: 1vw;
   background: gainsboro;
   border-radius: 999px;
+  z-index: 1;
   border: 1px solid gray;
 }
 body .game #range {
@@ -16,6 +18,9 @@ body .game #range {
   position: absolute;
   width: 600px;
   height: 600px;
+}
+body .game #effects #healEffect {
+  background: #00cc0044;
 }
 body .game .projectile {
   width: 0.5vw;
@@ -32,16 +37,22 @@ body .game .enemy {
 }
 body .game .hud {
   bottom: 0;
-  padding: 5rem;
+  padding: 3vw;
   z-index: 1;
 }
 body .game .hud .status .health .progress {
-  height: 20px;
+  height: 24px;
   border-radius: 6px 6px 6px 0 !important;
+  line-height: 24px;
 }
 body .game .hud .status .mana .progress {
-  height: 16px;
+  height: 19px;
+  line-height: 19px;
   border-radius: 0 0 6px 6px !important;
+}
+body .game .hud .status .health .progress-bar,
+body .game .hud .status .mana .progress-bar {
+  flex-direction: row;
 }
 body .game .hud .money {
   color: gold;

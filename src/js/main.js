@@ -3,8 +3,10 @@ $(document).ready(function(){
     $("#start").off("click").on("click", function() {
         $(".menu").fadeOut(500);
         $(".game").delay(510).fadeIn("slow", function () {
+            activeGame = true;
             gameStart();
             buyUpgrade();
+            buyAbility();
         })
     })
 
@@ -12,12 +14,17 @@ $(document).ready(function(){
     var viewportHeight = $(window).height();
     var viewportWidth = $(window).width();
 
+    var activeGame = false;
+
     var heroSpeed = 45;
     var speedCounter = 0;
     var projID = 0;
-    var range = 100;
+    var health = 10;
+    var maxHealth = 10;
 
     var money = 0;
+    var magic = 0;
+    var score = 0;
 
     var enemyCd = 45;
     var cdCounter = 0;
@@ -32,14 +39,17 @@ $(document).ready(function(){
     }
 
     function tick() {
-        setTimeout(function() {
-            requestAnimationFrame(tick);
-            
-            shoot();
-            enemySpawn();
-            checkHit();
-     
-        }, 1000 / fps);
+        if (activeGame) {
+            setTimeout(function() {
+                requestAnimationFrame(tick);
+                
+                shoot();
+                enemySpawn();
+                checkHit();
+                checkDamage();
+        
+            }, 1000 / fps);
+        }
     }
 
     function shoot() {
@@ -113,6 +123,21 @@ $(document).ready(function(){
         })
     }
 
+    function buyAbility() {
+        $("#heal").off("click").on("click", function() {
+            $("#healEffect").fadeIn(400).delay(200).fadeOut(400);
+            if (health + (health * 0.5) > maxHealth) {
+                health = maxHealth;
+            } else {
+                health = health + (maxHealth * 0.5);
+            }
+            var cost = Number($(this).data().cost);
+            magic = magic - cost;
+            $(this).data("cost", cost)
+            checkMagic()
+        })
+    }
+
     function enemySpawn() {
         if (cdCounter >= enemyCd) {
             // Genera un lato casuale (0 = sinistra, 1 = destra, 2 = superiore, 3 = inferiore)
@@ -181,19 +206,72 @@ $(document).ready(function(){
                     enemySpeed = enemySpeed - enemySpeed * 0.002;
 
                     money += 1;
+                    score += 1;
                     checkMoney();
+                    if (score % 10 === 0) {
+                        magic += 1;
+                        checkMagic();
+                    } 
                 }
             })
         })
     }
 
     function checkMoney() {
-        $.each($(".bottom button"), function(m, button){
+        $.each($(".bottom #btnMoney button"), function(m, button){
             console.log($(button).data("cost"))
             if (money < Number($(button).data("cost"))) {
                 $(button).addClass("disabled");
+            } else {
+                $(button).removeClass("disabled");
             }
         })
-        $(".money h2 span").html(money);
+        $(".money h2 span").html(parseInt(money));
+    }
+
+    function checkMagic() {
+        $.each($(".bottom #btnMagic button"), function(m, button){
+            console.log($(button).data("cost"))
+            if (magic < Number($(button).data("cost"))) {
+                $(button).addClass("disabled");
+            } else {
+                $(button).removeClass("disabled");
+            }
+        })
+        $(".magic h2 span").html(parseInt(magic));
+    }
+
+    function checkDamage() {
+        $.each($(".enemy"), function(i, enemy) {
+            var enemyPos = {}
+                enemyPos.top = $(enemy).position().top;
+                enemyPos.left = $(enemy).position().left;
+
+            var heroPos = {}
+                heroPos.top = $("#hero").position().top;
+                heroPos.left = $("#hero").position().left;
+
+            var distance = Math.sqrt(Math.pow((heroPos.left - enemyPos.left), 2) + Math.pow((heroPos.top - enemyPos.top), 2));
+            if (distance <= 20) {
+                $(enemy).remove();
+                getDamage();
+            }
+        })
+    }
+
+    function getDamage() {
+        health = health -1;
+        $("#healthValue").html(health);
+        $(".health .progress-bar").css("width", (health / maxHealth) * 100 + "%");
+
+        if (health <= 0) {
+            youDied();
+        }
+    }
+
+    function youDied() {
+        activeGame = false;
+
+        $(".enemy").remove();
     }
  });

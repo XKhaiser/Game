@@ -1,6 +1,7 @@
 body {
     height: 100vh;
     overflow: hidden !important;
+    font-family: 'Teko', sans-serif;
 
     .game {
         #hero {
@@ -8,6 +9,7 @@ body {
             height: 1vw;
             background: gainsboro;
             border-radius: 999px;
+            z-index: 1;
             border: 1px solid gray;
         }
 
@@ -18,6 +20,12 @@ body {
             position: absolute;
             width: 600px;
             height: 600px;
+        }
+
+        #effects {
+            #healEffect {
+                background: #00cc0044;
+            }
         }
 
         .projectile {
@@ -37,21 +45,29 @@ body {
 
         .hud {
             bottom: 0;
-            padding: 5rem;
+            padding: 3vw;
             z-index: 1;
 
             .status {
                 .health {
                     .progress {
-                        height: 20px;
+                        height: 24px;
                         border-radius: 6px 6px 6px 0 !important;
+                        line-height: 24px;
                     }
                 }
 
                 .mana {
                     .progress {
-                        height: 16px;
+                        height: 19px;
+                        line-height: 19px;
                         border-radius: 0 0 6px 6px !important;
+                    }
+                }
+
+                .health, .mana {
+                    .progress-bar {
+                        flex-direction: row;
                     }
                 }
             }

@@ -12,6 +12,9 @@
   <link href="./src/css/bootstrap.min.css" rel="stylesheet">
   <link href="./src/css/style.css" rel="stylesheet">
   <link href="./src/img/favicon.ico" rel="icon" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap" rel="stylesheet">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zanchettin Andrea</title>
@@ -24,6 +27,9 @@
     </div>
   </div>
   <div class="game h-100" style="display: none;">
+    <div class="w-100 h-100 position-absolute" id="effects">
+      <div class="w-100 h-100" id="healEffect" style="display:none;"></div>
+    </div>
     <div class="h-100 w-100 d-flex justify-content-center align-items-center flex-column">
       <div class="gameContainer w-100 h-100 d-flex justify-content-center align-items-center">
         <div id="hero"></div>
@@ -33,7 +39,7 @@
             <div class="status w-25">
               <div class="health">
                 <div class="progress">
-                  <div class="progress-bar bg-danger" role="progressbar" aria-label="Danger example" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                  <div class="progress-bar bg-danger" role="progressbar" aria-label="Danger example" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><span id="healthValue" class="me-2">10</span> / <span class="ms-2" id="healthMax">10</span></div>
                 </div>
               </div>
               <div class="mana">
@@ -46,11 +52,23 @@
               <h2><i class="fa-solid fa-coins me-3"></i><span>0</span></h2>
             </div>
           </div>
-          <div class="bottom h-50 w-100 d-flex align-items-end gap-4">
-            <button class="btn btn-secondary text-center px-4 disabled" data-cost="5" id="speed"><h2><i class="fa-solid fa-arrows-rotate"></i></h2><h5>Reload speed</h5></button>
-            <button class="btn btn-secondary text-center px-4 disabled" data-cost="5" id="rangeBtn"><h2><i class="fa-solid fa-bullseye"></i></h2><h5>Range</h5></button>
-            <button class="btn btn-secondary text-center px-4 disabled" data-cost="5" id="damage"><h2><i class="fa-solid fa-explosion"></i></h2><h5>Damage</h5></button>
-            <button class="btn btn-secondary text-center px-4 disabled" data-cost="5" id="bulSpeed"><h2><i class="fa-solid fa-person-running"></i></h2><h5>Bullet speed</h5></button>
+          <div class="bottom h-50 w-100 d-flex align-items-end justify-content-end flex-column">
+            <div class="d-flex justify-content-between w-100">
+              <h3>Upgrades</h3>
+              <h3>Abilities</h3>
+            </div>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <div class="d-flex justify-content-start align-items-center w-50 gap-4" id="btnMoney">
+                <button class="btn btn-secondary text-center px-4 disabled" data-cost="5" id="speed"><h2><i class="fa-solid fa-arrows-rotate"></i></h2><h5 class="mb-0">Reload speed</h5></button>
+                <button class="btn btn-secondary text-center px-4 disabled" data-cost="5" id="rangeBtn"><h2><i class="fa-solid fa-bullseye"></i></h2><h5 class="mb-0">Range</h5></button>
+                <button class="btn btn-secondary text-center px-4 disabled" data-cost="5" id="damage"><h2><i class="fa-solid fa-explosion"></i></h2><h5 class="mb-0">Damage</h5></button>
+                <button class="btn btn-secondary text-center px-4 disabled" data-cost="5" id="bulSpeed"><h2><i class="fa-solid fa-person-running"></i></h2><h5 class="mb-0">Bullet speed</h5></button>
+              </div>
+              <div class="d-flex justify-content-end align-items-center w-50 gap-4" id="btnMagic">
+                <button class="btn btn-secondary text-center px-4 disabled" data-cost="1" id="heal"><h2><i class="fa-solid fa-kit-medical"></i></h2><h5 class="mb-0">Heal</h5></button>
+                <button class="btn btn-secondary text-center px-4 disabled" data-cost="1" id="smite"><h2><i class="fa-solid fa-burst"></i></h2><h5 class="mb-0">Smite</h5></button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
