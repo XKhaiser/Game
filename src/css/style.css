@@ -3,6 +3,12 @@ body {
   overflow: hidden !important;
   font-family: 'Teko', sans-serif;
 }
+body .game {
+  background-image: url(/src/img/untitled.png);
+  background-size: cover;
+  background-position: center;
+  image-rendering: pixelated;
+}
 body .game #hero {
   width: 1vw;
   height: 1vw;
@@ -37,8 +43,40 @@ body .game .enemy {
 }
 body .game .hud {
   bottom: 0;
-  padding: 3vw;
+  padding: 1.5vw;
   z-index: 1;
+}
+body .game .hud button.disabled {
+  filter: grayscale(1);
+}
+body .game .hud .skills {
+  right: 3vw;
+}
+body .game .hud .skills button {
+  overflow: hidden;
+}
+body .game .hud .skills button.loading {
+  pointer-events: none;
+}
+body .game .hud .skills button.loading:after {
+  backdrop-filter: grayscale(1);
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  left: 0;
+  animation: load 6s linear;
+  background: #00000099;
+  border-radius: 6px;
+}
+@keyframes load {
+  0% {
+    height: 100%;
+  }
+  100% {
+    height: 0%;
+  }
 }
 body .game .hud .status .health .progress {
   height: 24px;
@@ -54,7 +92,17 @@ body .game .hud .status .health .progress-bar,
 body .game .hud .status .mana .progress-bar {
   flex-direction: row;
 }
+body .game .hud #btnHero #btnMoney button {
+  flex: 1;
+}
+body .game .hud #btnHero #btnMagic button {
+  flex: 1;
+}
 body .game .hud .money {
   color: gold;
+  text-shadow: 0 0 3px #000;
+}
+body .game .hud .magic {
+  color: violet;
   text-shadow: 0 0 3px #000;
 }
