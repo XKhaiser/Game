@@ -2,6 +2,8 @@ import moment from 'moment';
 
 // js pagina
 $(document).ready(function(){
+    $('#modalStart').modal('show');
+
     $("#start").off("click").on("click", function() {
         $(".menu").fadeOut(500);
         if ($("#riepilogo").is(":visible")) {
