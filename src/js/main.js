@@ -85,6 +85,10 @@ $(document).ready(function(){
 
         $(".game button").addClass("disabled");
         $(".skills button").hide();
+
+        $.each($("#btnMoney button"), function (i, button) {
+            $(button).removeData();
+        })
     }
 
     function gameStart() {
@@ -155,32 +159,32 @@ $(document).ready(function(){
         $("#speed").off("click").on("click", function() {
             heroSpeed = heroSpeed - (heroSpeed * 0.25);
             var cost = Number($(this).data().cost);
-            money = money - cost;
+            money = money - parseInt(cost);
             upgrades++;
             cost = cost + (cost * 0.5);
-            $(this).data("cost", cost);
-            $(this).find("cost").html(parseInt(cost));
+            $(this).data("cost", parseInt(cost));
+            $(this).find(".cost").html(parseInt(cost));
             checkMoney()
         })
         $("#rangeBtn").off("click").on("click", function() {
             minDistance = minDistance + 5;
             $("#range").css("width", minDistance * 2 + "px").css("height", minDistance * 2 + "px");
             var cost = Number($(this).data().cost);
-            money = money - cost;
+            money = money - parseInt(cost);
             upgrades++;
             cost = cost + (cost * 0.5);
-            $(this).data("cost", cost);
-            $(this).find("cost").html(parseInt(cost));
+            $(this).data("cost", parseInt(cost));
+            $(this).find(".cost").html(parseInt(cost));
             checkMoney()
         })
         $("#bulSpeed").off("click").on("click", function() {
             bulSpeed = bulSpeed - bulSpeed * 0.13;
             var cost = Number($(this).data().cost);
-            money = money - cost;
+            money = money - parseInt(cost);
             upgrades++;
             cost = cost + (cost * 0.5);
-            $(this).data("cost", cost);
-            $(this).find("cost").html(parseInt(cost));
+            $(this).data("cost", parseInt(cost));
+            $(this).find(".cost").html(parseInt(cost));
             checkMoney()
         })
     }
@@ -189,18 +193,18 @@ $(document).ready(function(){
         $("#heal").off("click").on("click", function() {
             $("#healSkill").show();
             var cost = Number($(this).data().cost);
-            magic = magic - cost;
-            $(this).data("cost", cost)
-            $(this).find("cost").html(parseInt(cost));
+            magic = magic - parseInt(cost);
+            $(this).data("cost", parseInt(cost))
+            $(this).find(".cost").html(parseInt(cost));
             checkMagic();
         })
 
         $("#smite").off("click").on("click", function() {
             $("#smiteSkill").show();
             var cost = Number($(this).data().cost);
-            magic = magic - cost;
-            $(this).data("cost", cost)
-            $(this).find("cost").html(parseInt(cost));
+            magic = magic - parseInt(cost);
+            $(this).data("cost", parseInt(cost))
+            $(this).find(".cost").html(parseInt(cost));
             checkMagic();
         })
     }
@@ -210,7 +214,7 @@ $(document).ready(function(){
             var _this = $(this);
             $(_this).addClass("loading");
             $("#healEffect").fadeIn(400).delay(200).fadeOut(400);
-            if (health + (health * 0.5) > maxHealth) {
+            if (health + (maxHealth * 0.5) > maxHealth) {
                 health = maxHealth;
             } else {
                 health = health + (maxHealth * 0.5);
