@@ -291,7 +291,7 @@ $(document).ready(function(){
                 endPos.top = $("#hero").position().top;
                 endPos.left = $("#hero").position().left;
 
-            $(".gameContainer").append("<div class='enemy' id='ene" + eneID + "' style='top:" + startPos.top + "px;left:" + startPos.left + "px;background-image: url(" + (x < (viewportWidth / 2) ? "../img/Goblin_run_right.gif" : "../img/Goblin_run_left.gif") + ")'></div>");
+            $(".gameContainer").append("<div class='enemy' id='ene" + eneID + "' style='top:" + startPos.top + "px;left:" + startPos.left + "px;background-image: url(" + (x < (viewportWidth / 2) ? "src/img/Goblin_run_right.gif" : "src/img/Goblin_run_left.gif") + ")'></div>");
 
             $("#ene" + eneID).animate({
                 top: endPos.top + "px",
