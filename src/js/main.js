@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 // js pagina
 $(document).ready(function(){
     $('#modalStart').modal('show');
