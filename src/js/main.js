@@ -1,3 +1,6 @@
+import goblinRight from "../img/Goblin_run_right.gif"
+import goblinLeft from "../img/Goblin_run_left.gif"
+
 // js pagina
 $(document).ready(function(){
     $('#modalStart').modal('show');
@@ -291,7 +294,7 @@ $(document).ready(function(){
                 endPos.top = $("#hero").position().top;
                 endPos.left = $("#hero").position().left;
 
-            $(".gameContainer").append("<div class='enemy' id='ene" + eneID + "' style='top:" + startPos.top + "px;left:" + startPos.left + "px;'></div>");
+            $(".gameContainer").append("<div class='enemy' id='ene" + eneID + "' style='top:" + startPos.top + "px;left:" + startPos.left + "px;background-image: url(" + (x < (viewportWidth / 2) ? goblinRight : goblinLeft) + ")'></div>");
 
             $("#ene" + eneID).animate({
                 top: endPos.top + "px",
@@ -321,8 +324,8 @@ $(document).ready(function(){
                 if (distance <= 25) {
                     $(bullet).remove();
                     $(enemy).remove();
-                    enemyCd = enemyCd - enemyCd * 0.02;
-                    enemySpeed = enemySpeed - enemySpeed * 0.002;
+                    enemyCd = enemyCd - enemyCd * 0.015;
+                    enemySpeed = enemySpeed - enemySpeed * 0.0015;
 
                     money += 1;
                     score += 1;

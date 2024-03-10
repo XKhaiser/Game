@@ -36,10 +36,13 @@ body .game .projectile {
   border-radius: 999px;
 }
 body .game .enemy {
-  width: 1vw;
-  height: 1vw;
+  width: 1.7vw;
+  height: 1.7vw;
   position: absolute;
-  background: red;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
 }
 body .game .hud {
   bottom: 0;
