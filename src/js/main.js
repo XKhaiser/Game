@@ -428,6 +428,8 @@ $(document).ready(function(){
     function youDied() {
         activeGame = false;
 
+        if (activeGame) return;
+
         var endDate = moment();
         var time = moment.duration(endDate.diff(startDate));
 
