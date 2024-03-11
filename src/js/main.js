@@ -121,6 +121,7 @@ $(document).ready(function(){
 
         $.each($("#btnMoney button"), function (i, button) {
             $(button).removeData();
+            $(button).find(".cost").html($(button).data().cost)
         })
     }
 
@@ -144,6 +145,7 @@ $(document).ready(function(){
     }
 
     function shoot() {
+        closestElement = null;
         $.each($(".enemy"), function(index, enemy) {
             var enemyPos = {}
                 enemyPos.top = $(enemy).position().top;
@@ -154,17 +156,30 @@ $(document).ready(function(){
                 hero.left = $("#hero").position().left;
 
             var distance = Math.sqrt((enemyPos.left - hero.left) ** 2 + (enemyPos.top - hero.top) ** 2);
-            if (distance <= minDistance && speedCounter >= heroSpeed) {
-                closestElement = $(enemy);
+            // if (distance <= minDistance && speedCounter >= heroSpeed) {
+            //     closestElement = $(enemy);
 
-                var distSpeed = distance / minDistance;
+            //     var distSpeed = distance / minDistance;
 
-                heroProjectile($(enemy), distSpeed);
-                speedCounter = 0;
-                return;
+            //     heroProjectile($(enemy), distSpeed);
+            //     speedCounter = 0;
+            //     return;
+            // }
+            if (distance <= minDistance) { // Controlla se il nemico è all'interno del raggio desiderato
+                if (closestElement == null || distance < closestEnemy.distance) { // Controlla se è il nemico più vicino trovato finora
+                    closestElement = {
+                        element: $(enemy),
+                        distance: distance
+                    };
+                }
             }
         })
-        speedCounter++;
+        if (closestEnemy != null && speedCounter >= heroSpeed) { // Controlla se è stato trovato un nemico entro il raggio e il personaggio principale è pronto a sparare
+            heroProjectile(closestEnemy.element, closestEnemy.distance / minDistance);
+            speedCounter = 0;
+        } else {
+            speedCounter++;
+        }
     }
 
     function heroProjectile(target, distance) {
@@ -496,7 +511,8 @@ $(document).ready(function(){
 
         if (existingUserIndex !== -1) {
             // Se l'utente esiste già, aggiorna il punteggio
-            campi[existingUserIndex].score = score;
+            if (campi[existingUserIndex].score <= score)
+                campi[existingUserIndex].score = score;
         } else {
             // Se l'utente non esiste, aggiungi un nuovo oggetto
             campi.push({
