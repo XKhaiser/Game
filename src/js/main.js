@@ -448,10 +448,11 @@ $(document).ready(function(){
             console.log(scores);
 
             $.each(scores, function(i, point) {
-                if (i > 9) return;
-                var html = '<li class="list-group-item d-flex justify-content-between align-items-center"><h6>' + point.user + '</h6><h6>' + point.score + '</h6></li>';
+                if (i <= 9) {
+                    var html = '<li class="list-group-item d-flex justify-content-between align-items-center"><h6>' + point.user + '</h6><h6>' + point.score + '</h6></li>';
 
-                $("#leaderboard").append(html);
+                    $("#leaderboard").append(html);
+                }
             })
         }).catch(function(error) {
             console.error("Errore nel caricamento dei punteggi:", error);
