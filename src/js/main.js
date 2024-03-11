@@ -1,6 +1,40 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getAuth } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js'
+import { getFirestore, collection, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js'
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAgY29cfeSbp44zbY_VQQcCeIbCobQQELc",
+  authDomain: "game-710e5.firebaseapp.com",
+  projectId: "game-710e5",
+  storageBucket: "game-710e5.appspot.com",
+  messagingSenderId: "161097367088",
+  appId: "1:161097367088:web:149ae6524541de6e0ab7f5"
+};
+
+// Initialize Firebase
+const firebase = initializeApp(firebaseConfig);
+
+var db = getFirestore(firebase);
+
 // js pagina
 $(document).ready(function(){
     $('#modalStart').modal('show');
+
+    var user = "";
+
+    $("#save").off("click").on("click", function() {
+        var name = $("#userName").val();
+        if (name.length > 1) {
+            user = name;
+            $('#modalStart').modal('hide');
+        } else {
+            alert("Inserisci un nome valido!");
+        }
+    })
 
     $("#start").off("click").on("click", function() {
         $(".menu").fadeOut(500);
@@ -20,6 +54,7 @@ $(document).ready(function(){
     var fps = 30;
     var viewportHeight = $(window).height();
     var viewportWidth = $(window).width();
+    
 
     var startDate = moment();
 
@@ -384,7 +419,9 @@ $(document).ready(function(){
         $(".health .progress-bar").css("width", (health / maxHealth) * 100 + "%");
 
         if (health <= 0) {
-            youDied();
+            addScoreToFirebase(user, score).then(function() {
+                youDied();
+            });
         }
     }
 
@@ -394,6 +431,8 @@ $(document).ready(function(){
         var endDate = moment();
         var time = moment.duration(endDate.diff(startDate));
 
+        $("#leaderboard li").remove()
+
         $(".enemy").remove();
         $(".game").fadeOut(500);
         $("#riepilogo").delay(501).fadeIn(500);
@@ -402,6 +441,20 @@ $(document).ready(function(){
         $("#time").html(moment.utc(time.asMilliseconds()).format('HH:mm:ss'));
         $("#upNum").html(upgrades);
         $("#skillNum").html(skills);
+
+        loadTopScoresFromFirebase().then(function(scores) {
+            console.log(scores);
+
+            $.each(scores, function(i, point) {
+                if (i > 9) return;
+                var html = '<li class="list-group-item d-flex justify-content-between align-items-center"><h6>' + point.user + '</h6><h6>' + point.score + '</h6></li>';
+
+                $("#leaderboard").append(html);
+            })
+        }).catch(function(error) {
+            console.error("Errore nel caricamento dei punteggi:", error);
+            // Gestione degli errori, se necessario
+        });
 
         $("#retry").off("click").on("click", function() {
             $("#start").trigger("click");
@@ -429,5 +482,34 @@ $(document).ready(function(){
                 $(this).addClass("disabled");
             }
         })
+    }
+
+    async function addScoreToFirebase(user, score) {
+        var campi = await loadTopScoresFromFirebase();
+        console.log(campi);
+        campi.push({
+            "user": user,
+            "score": score 
+        })
+
+        await setDoc(doc(db, "scores", "punteggi"), {
+            "scores": campi
+        });
+    }
+
+    async function loadTopScoresFromFirebase() {
+        const docRef = doc(db, "scores", "punteggi");
+        const docSnap = await getDoc(docRef);
+        var data = docSnap.data().scores;
+        console.log(data, docSnap.data())
+        const scores = [];
+        data.forEach(childSnapshot => {
+            const score = childSnapshot;
+            scores.push(score);
+        });
+        scores.sort(function (a, b) {
+            return b.score - a.score;
+        }); // Ordina in modo decrescente
+        return scores;
     }
  });
