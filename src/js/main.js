@@ -490,10 +490,20 @@ $(document).ready(function(){
     async function addScoreToFirebase(user, score) {
         var campi = await loadTopScoresFromFirebase();
         console.log(campi);
-        campi.push({
-            "user": user,
-            "score": score 
-        })
+
+        // Controlla se esiste già un oggetto con la stessa proprietà "user"
+        var existingUserIndex = campi.findIndex(item => item.user.toLowerCase() === user.toLowerCase());
+
+        if (existingUserIndex !== -1) {
+            // Se l'utente esiste già, aggiorna il punteggio
+            campi[existingUserIndex].score = score;
+        } else {
+            // Se l'utente non esiste, aggiungi un nuovo oggetto
+            campi.push({
+                "user": user,
+                "score": score
+            });
+        }
 
         await setDoc(doc(db, "scores", "punteggi"), {
             "scores": campi
