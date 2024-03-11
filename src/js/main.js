@@ -419,6 +419,9 @@ $(document).ready(function(){
         $(".health .progress-bar").css("width", (health / maxHealth) * 100 + "%");
 
         if (health <= 0) {
+            activeGame = false;
+
+            if (activeGame) return;
             addScoreToFirebase(user, score).then(function() {
                 youDied();
             });
@@ -426,9 +429,6 @@ $(document).ready(function(){
     }
 
     function youDied() {
-        activeGame = false;
-
-        if (activeGame) return;
 
         var endDate = moment();
         var time = moment.duration(endDate.diff(startDate));
