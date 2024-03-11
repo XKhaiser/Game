@@ -174,8 +174,8 @@ $(document).ready(function(){
                 }
             }
         })
-        if (closestEnemy != null && speedCounter >= heroSpeed) { // Controlla se è stato trovato un nemico entro il raggio e il personaggio principale è pronto a sparare
-            heroProjectile(closestEnemy.element, closestEnemy.distance / minDistance);
+        if (closestElement != null && speedCounter >= heroSpeed) { // Controlla se è stato trovato un nemico entro il raggio e il personaggio principale è pronto a sparare
+            heroProjectile(closestElement.element, closestElement.distance / minDistance);
             speedCounter = 0;
         } else {
             speedCounter++;
