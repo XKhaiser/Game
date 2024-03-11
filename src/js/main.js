@@ -166,7 +166,7 @@ $(document).ready(function(){
             //     return;
             // }
             if (distance <= minDistance) { // Controlla se il nemico è all'interno del raggio desiderato
-                if (closestElement == null || distance < closestEnemy.distance) { // Controlla se è il nemico più vicino trovato finora
+                if (closestElement == null || distance < closestElement.distance) { // Controlla se è il nemico più vicino trovato finora
                     closestElement = {
                         element: $(enemy),
                         distance: distance
