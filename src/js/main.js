@@ -25,6 +25,7 @@ $(document).ready(function(){
     $('#modalStart').modal('show');
 
     var user = "";
+    var tutorialCompleted = false;
 
     $("#save").off("click").on("click", function() {
         var name = $("#userName").val();
@@ -37,18 +38,11 @@ $(document).ready(function(){
     })
 
     $("#start").off("click").on("click", function() {
-        $(".menu").fadeOut(500);
-        if ($("#riepilogo").is(":visible")) {
-            $("#riepilogo").fadeOut(500);
+        if (!tutorialCompleted) {
+            tutorial();
+        } else {
+            initGame()
         }
-        $(".game").delay(510).fadeIn("slow", function () {
-            activeGame = true;
-            resetVars();
-            gameStart();
-            buyUpgrade();
-            buyAbility();
-            useSkill();
-        })
     })
 
     var fps = 30;
@@ -81,6 +75,21 @@ $(document).ready(function(){
     
     var upgrades = 0;
     var skills = 0;
+
+    function initGame() {
+        $(".menu").fadeOut(500);
+        if ($("#riepilogo").is(":visible")) {
+            $("#riepilogo").fadeOut(500);
+        }
+        $(".game").delay(510).fadeIn("slow", function () {
+            activeGame = true;
+            resetVars();
+            gameStart();
+            buyUpgrade();
+            buyAbility();
+            useSkill();
+        })
+    }
 
     function resetVars() {
         fps = 30;
@@ -118,10 +127,39 @@ $(document).ready(function(){
 
         $(".game button").addClass("disabled");
         $(".skills button").hide();
+        $("#smite, #heal").show();
 
         $.each($("#btnMoney button"), function (i, button) {
             $(button).removeData();
             $(button).find(".cost").html($(button).data().cost)
+        })
+    }
+
+    function tutorial() {
+        $(".menu").fadeOut(500);
+        $(".tutorial").delay(501).fadeIn(500);
+        $(".tutorial").off("click").on("click", function() {
+            if ($(".tutorial .imgTut1").is(":visible")) {
+                $(".tutorial .imgTut1").fadeOut(function(){
+                    $(".tutorial .imgTut2").fadeIn();
+                });
+            } else if ($(".tutorial .imgTut2").is(":visible")) {
+                $(".tutorial .imgTut2").fadeOut(function(){
+                    $(".tutorial .imgTut3").fadeIn();
+                });
+            } else if ($(".tutorial .imgTut3").is(":visible")) {
+                $(".tutorial .imgTut3").fadeOut(function(){
+                    $(".tutorial .imgTut4").fadeIn();
+                });
+            } else if ($(".tutorial .imgTut4").is(":visible")) {
+                $(".tutorial .imgTut4").fadeOut(function(){
+                    $(".tutorial .imgTut5").fadeIn();
+                });
+            } else {
+                tutorialCompleted = true;
+                $(".tutorial").fadeOut(500);
+                initGame();
+            }
         })
     }
 
@@ -240,6 +278,7 @@ $(document).ready(function(){
     function buyAbility() {
         $("#heal").off("click").on("click", function() {
             $("#healSkill").show();
+            $(this).hide();
             var cost = Number($(this).data().cost);
             magic = magic - parseInt(cost);
             $(this).data("cost", parseInt(cost))
@@ -249,6 +288,7 @@ $(document).ready(function(){
 
         $("#smite").off("click").on("click", function() {
             $("#smiteSkill").show();
+            $(this).hide();
             var cost = Number($(this).data().cost);
             magic = magic - parseInt(cost);
             $(this).data("cost", parseInt(cost))

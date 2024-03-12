@@ -23,7 +23,16 @@
   <div class="menu h-100">
     <div class="h-100 w-100 d-flex justify-content-center align-items-center flex-column">
       <h1 class="mb-5">Game</h1>
-      <button class="btn btn-secondary" id="start">Start</button>
+      <button class="btn btn-secondary px-4 py-2" id="start">Start</button>
+    </div>
+  </div>
+  <div class="tutorial h-100" style="display:none;background:#00000033;">
+    <div class="d-flex justify-content-center align-items-center w-100 h-100">
+      <img class="imgTut1 w-75" src="/img/tutorial-01.jpg" />
+      <img class="imgTut2 w-75" src="/img/tutorial-02.jpg" style="display:none;" />
+      <img class="imgTut3 w-75" src="/img/tutorial-03.jpg" style="display:none;" />
+      <img class="imgTut4 w-75" src="/img/tutorial-04.jpg" style="display:none;" />
+      <img class="imgTut5 w-75" src="/img/tutorial-05.jpg" style="display:none;" />
     </div>
   </div>
   <div class="game h-100" style="display: none;">
@@ -36,8 +45,8 @@
         <div id="range" style="width:600px;height:600px;"></div>
         <div class="hud position-absolute w-100 h-100 d-flex justify-content-center flex-column align-items-center">
           <div class="skills position-absolute d-flex flex-column gap-3">
-            <button class="btn btn-success disabled px-5 pt-2 position-relative" id="healSkill" style="display:none;" data-cost="3"><h4 class="mb-0"><i class="fa-solid fa-kit-medical"></i></h4><h5 class="mb-0">Heal</h5></button>
-            <button class="btn btn-danger disabled px-5 pt-2 position-relative" id="smiteSkill" style="display:none;" data-cost="4"><h4 class="mb-0"><i class="fa-solid fa-burst"></i></h4><h5 class="mb-0">Smite</h5></button>
+            <button class="btn btn-success disabled px-5 pt-2 position-relative" id="healSkill" style="display:none;" data-cost="3"><h4 class="mb-0"><i class="fa-solid fa-kit-medical"></i></h4><h5 class="mb-0">Heal</h5><hr class="my-1" /><h6>-3 mana</h6></button>
+            <button class="btn btn-danger disabled px-5 pt-2 position-relative" id="smiteSkill" style="display:none;" data-cost="4"><h4 class="mb-0"><i class="fa-solid fa-burst"></i></h4><h5 class="mb-0">Smite</h5><hr class="my-1" /><h6>-4 mana</h6></button>
           </div>
           <div class="top h-50 w-100 d-flex justify-content-between">
             <div class="status w-25">
