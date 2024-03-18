@@ -498,13 +498,14 @@ $(document).ready(function(){
         $("#time").html(moment.utc(time.asMilliseconds()).format('HH:mm:ss'));
         $("#upNum").html(upgrades);
         $("#skillNum").html(skills);
+        $("#leaderboard li").remove();
 
         loadTopScoresFromFirebase().then(function(scores) {
             console.log(scores);
 
             $.each(scores, function(i, point) {
                 if (i <= 9) {
-                    var html = '<li class="list-group-item d-flex justify-content-between align-items-center"><h6>' + point.user + '</h6><h6>' + point.score + '</h6></li>';
+                    var html = '<li class="list-group-item d-flex justify-content-between align-items-center gap-4"><h6>' + point.user + '</h6><h6>' + point.score + '</h6></li>';
 
                     $("#leaderboard").append(html);
                 }
@@ -522,6 +523,32 @@ $(document).ready(function(){
             $(".menu").delay(501).fadeIn(500);
         })
     }
+
+    function noCheat() {
+        if (!activeGame) return;
+        score = 0;
+        activeGame = false;
+        $("#cheats").fadeIn("slow", function() {
+            $("#cheats .progress-bar").animate({
+                width: "0%"
+            }, 10000, "linear", function() {
+                $("#cheats").fadeOut(500, function() {
+                    $("#cheats .progress-bar").css("width", "100%");
+                });
+                youDied();
+            });
+        })
+    }
+
+    $(window).on("resize", function() {
+        if (activeGame)
+            noCheat();
+    });
+
+    $(window).on('blur', function(){
+        if (activeGame)
+            noCheat();
+    });
 
     function manaRegen() {
         if (mana + 0.02 <= 10) {
