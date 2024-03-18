@@ -117,7 +117,7 @@ body #cheats {
   z-index: 10;
 }
 body #cheats > div {
-  background-image: url(/src/img/ezgif.com-animated-gif-maker.gif);
+  background-image: url(../img/ezgif.com-animated-gif-maker.gif);
   background-size: cover;
   background-position: top center;
   color: white;
