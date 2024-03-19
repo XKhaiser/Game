@@ -48,7 +48,6 @@ $(document).ready(function(){
     var fps = 30;
     var viewportHeight = $(window).height();
     var viewportWidth = $(window).width();
-    
 
     var startDate = moment();
 
@@ -71,10 +70,17 @@ $(document).ready(function(){
     var enemySpeed = 15000;
     var bulSpeed = 1300;
     var closestElement;
-    var minDistance = 300;
+    var minDistance = 300 * (viewportWidth / 1920);
+
+    $("#range").css({
+        "width": (minDistance * 2) + "px",
+        "height": (minDistance * 2) + "px"
+    });
     
     var upgrades = 0;
     var skills = 0;
+
+    var rage = false;
 
     function initGame() {
         $(".menu").fadeOut(500);
@@ -115,10 +121,17 @@ $(document).ready(function(){
         enemySpeed = 15000;
         bulSpeed = 1300;
         closestElement;
-        minDistance = 300;
+        minDistance = 300 * (viewportWidth / 1920);
+
+        $("#range").css({
+            "width": (minDistance * 2) + "px",
+            "height": (minDistance * 2) + "px"
+        });
 
         upgrades = 0;
         skills = 0;
+
+        rage = false;
 
         $(".money h2 span").html(parseInt(money));
         $(".magic h2 span").html(parseInt(magic));
@@ -131,7 +144,7 @@ $(document).ready(function(){
 
         $.each($("#btnMoney button"), function (i, button) {
             $(button).removeData();
-            $(button).find(".cost").html($(button).data().cost)
+            $(button).find(".cost").html($(button).attr("data-cost"))
         })
     }
 
@@ -194,15 +207,7 @@ $(document).ready(function(){
                 hero.left = $("#hero").position().left;
 
             var distance = Math.sqrt((enemyPos.left - hero.left) ** 2 + (enemyPos.top - hero.top) ** 2);
-            // if (distance <= minDistance && speedCounter >= heroSpeed) {
-            //     closestElement = $(enemy);
 
-            //     var distSpeed = distance / minDistance;
-
-            //     heroProjectile($(enemy), distSpeed);
-            //     speedCounter = 0;
-            //     return;
-            // }
             if (distance <= minDistance) { // Controlla se il nemico è all'interno del raggio desiderato
                 if (closestElement == null || distance < closestElement.distance) { // Controlla se è il nemico più vicino trovato finora
                     closestElement = {
@@ -212,7 +217,7 @@ $(document).ready(function(){
                 }
             }
         })
-        if (closestElement != null && speedCounter >= heroSpeed) { // Controlla se è stato trovato un nemico entro il raggio e il personaggio principale è pronto a sparare
+        if (closestElement != null && speedCounter >= (rage ? heroSpeed / 4 : heroSpeed)) { // Controlla se è stato trovato un nemico entro il raggio e il personaggio principale è pronto a sparare
             heroProjectile(closestElement.element, closestElement.distance / minDistance);
             speedCounter = 0;
         } else {
@@ -234,7 +239,7 @@ $(document).ready(function(){
         $("#bul" + projID).animate({
             top: endPos.top + "px",
             left: endPos.left + "px"
-        }, bulSpeed * distance, "linear", function() {
+        }, (rage ? (bulSpeed * distance) / 1.8 : bulSpeed * distance), "linear", function() {
             $(this).remove();
         })
 
@@ -295,6 +300,16 @@ $(document).ready(function(){
             $(this).find(".cost").html(parseInt(cost));
             checkMagic();
         })
+
+        $("#rage").off("click").on("click", function() {
+            $("#rageSkill").show();
+            $(this).hide();
+            var cost = Number($(this).data().cost);
+            magic = magic - parseInt(cost);
+            $(this).data("cost", parseInt(cost))
+            $(this).find(".cost").html(parseInt(cost));
+            checkMagic();
+        })
     }
 
     function useSkill() {
@@ -337,6 +352,24 @@ $(document).ready(function(){
             })
 
             mana = mana - 4;
+            skills++;
+
+            setTimeout(function(){
+                $(_this).removeClass("loading");
+            }, 6000)
+        })
+
+        $("#rageSkill").off("click").on("click", function() {
+            var _this = $(this);
+            $(_this).addClass("loading");
+            
+            rage = true;
+            
+            setTimeout(function() {
+                rage = false;
+            }, 7000);
+
+            mana = mana - 6;
             skills++;
 
             setTimeout(function(){
@@ -541,6 +574,11 @@ $(document).ready(function(){
     }
 
     $(window).on("resize", function() {
+        $("#range").css({
+            "width": (minDistance * 2) + "px",
+            "height": (minDistance * 2) + "px"
+        });
+
         if (activeGame)
             noCheat();
     });

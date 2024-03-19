@@ -42,11 +42,12 @@
     <div class="h-100 w-100 d-flex justify-content-center align-items-center flex-column">
       <div class="gameContainer w-100 h-100 d-flex justify-content-center align-items-center">
         <div id="hero"></div>
-        <div id="range" style="width:600px;height:600px;"></div>
+        <div id="range"></div>
         <div class="hud position-absolute w-100 h-100 d-flex justify-content-center flex-column align-items-center">
           <div class="skills position-absolute d-flex flex-column gap-3">
             <button class="btn btn-success disabled px-5 pt-2 position-relative" id="healSkill" style="display:none;" data-cost="3"><h4 class="mb-0"><i class="fa-solid fa-kit-medical"></i></h4><h5 class="mb-0">Heal</h5><hr class="my-1" /><h6>-3 mana</h6></button>
             <button class="btn btn-danger disabled px-5 pt-2 position-relative" id="smiteSkill" style="display:none;" data-cost="4"><h4 class="mb-0"><i class="fa-solid fa-burst"></i></h4><h5 class="mb-0">Smite</h5><hr class="my-1" /><h6>-4 mana</h6></button>
+            <button class="btn btn-danger disabled px-5 pt-2 position-relative" id="rageSkill" style="display:none;" data-cost="6"><h4 class="mb-0"><i class="fa-solid fa-gauge-simple-high"></i></h4><h5 class="mb-0">Rage</h5><hr class="my-1" /><h6>-4 mana</h6></button>
           </div>
           <div class="top h-50 w-100 d-flex justify-content-between">
             <div class="status w-25">
@@ -83,8 +84,9 @@
                 <button class="btn btn-info text-center px-4 pt-3 disabled" data-cost="5" id="bulSpeed"><h2 class="mb-1"><i class="fa-solid fa-person-running"></i></h2><h5 class="mb-0">Bullet speed</h5><hr class="my-2" /><h6 class="mb-0"><i class="fa-solid fa-coins me-2"></i><span class="cost">5</span></h6></button>
               </div>
               <div class="d-flex justify-content-end align-items-center w-50 gap-4" id="btnMagic">
-                <button class="btn btn-warning text-center px-4 pt-3 disabled" data-cost="1" id="heal"><h2 class="mb-1"><i class="fa-solid fa-kit-medical"></i></h2><h5 class="mb-0">Heal</h5><hr class="my-2" /><h6 class="mb-0"><i class="fa-solid fa-hat-wizard me-2"></i><span class="cost">1</span></h6></button>
-                <button class="btn btn-warning text-center px-4 pt-3 disabled" data-cost="1" id="smite"><h2 class="mb-1"><i class="fa-solid fa-burst"></i></h2><h5 class="mb-0">Smite</h5><hr class="my-2" /><h6 class="mb-0"><i class="fa-solid fa-hat-wizard me-2"></i><span class="cost">1</span></h6></button>
+                <button class="btn btn-warning text-center px-4 pt-3 disabled" data-cost="1" id="heal"><h2 class="mb-1"><i class="fa-solid fa-kit-medical"></i></h2><h5 class="mb-0"><i>Sblocca</i><br />Heal</h5><hr class="my-2" /><h6 class="mb-0"><i class="fa-solid fa-hat-wizard me-2"></i><span class="cost">1</span></h6></button>
+                <button class="btn btn-warning text-center px-4 pt-3 disabled" data-cost="1" id="smite"><h2 class="mb-1"><i class="fa-solid fa-burst"></i></h2><h5 class="mb-0"><i>Sblocca</i><br />Smite</h5><hr class="my-2" /><h6 class="mb-0"><i class="fa-solid fa-hat-wizard me-2"></i><span class="cost">1</span></h6></button>
+                <button class="btn btn-warning text-center px-4 pt-3 disabled" data-cost="2" id="rage"><h2 class="mb-1"><i class="fa-solid fa-gauge-simple-high"></i></h2><h5 class="mb-0"><i>Sblocca</i><br />Rage</h5><hr class="my-2" /><h6 class="mb-0"><i class="fa-solid fa-hat-wizard me-2"></i><span class="cost">2</span></h6></button>
               </div>
             </div>
           </div>
