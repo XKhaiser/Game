@@ -140,7 +140,7 @@ $(document).ready(function(){
 
         $(".game button").addClass("disabled");
         $(".skills button").hide();
-        $("#smite, #heal").show();
+        $("#smite, #heal, #rage").show();
 
         $.each($("#btnMoney button"), function (i, button) {
             $(button).removeData();
@@ -368,7 +368,7 @@ $(document).ready(function(){
         })
 
         $("#rageSkill").off("click").on("click", function() {
-            if (mana - 6 < 0) return;
+            if (mana - 5 < 0) return;
             var _this = $(this);
             $(_this).addClass("loading");
             
@@ -378,7 +378,7 @@ $(document).ready(function(){
                 rage = false;
             }, 7000);
 
-            mana = mana - 6;
+            mana = mana - 5;
             skills++;
 
             setTimeout(function(){
