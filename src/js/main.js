@@ -248,6 +248,7 @@ $(document).ready(function(){
 
     function buyUpgrade() {
         $("#speed").off("click").on("click", function() {
+            if (money - Number($(this).data().cost) < 0) return;
             heroSpeed = heroSpeed - (heroSpeed * 0.25);
             var cost = Number($(this).data().cost);
             money = money - parseInt(cost);
@@ -258,6 +259,7 @@ $(document).ready(function(){
             checkMoney()
         })
         $("#rangeBtn").off("click").on("click", function() {
+            if (money - Number($(this).data().cost) < 0) return;
             minDistance = minDistance + 5;
             $("#range").css("width", minDistance * 2 + "px").css("height", minDistance * 2 + "px");
             var cost = Number($(this).data().cost);
@@ -269,6 +271,7 @@ $(document).ready(function(){
             checkMoney()
         })
         $("#bulSpeed").off("click").on("click", function() {
+            if (money - Number($(this).data().cost) < 0) return;
             bulSpeed = bulSpeed - bulSpeed * 0.13;
             var cost = Number($(this).data().cost);
             money = money - parseInt(cost);
@@ -282,6 +285,7 @@ $(document).ready(function(){
 
     function buyAbility() {
         $("#heal").off("click").on("click", function() {
+            if (magic - Number($(this).data().cost) < 0) return;
             $("#healSkill").show();
             $(this).hide();
             var cost = Number($(this).data().cost);
@@ -292,6 +296,7 @@ $(document).ready(function(){
         })
 
         $("#smite").off("click").on("click", function() {
+            if (magic - Number($(this).data().cost) < 0) return;
             $("#smiteSkill").show();
             $(this).hide();
             var cost = Number($(this).data().cost);
@@ -302,6 +307,7 @@ $(document).ready(function(){
         })
 
         $("#rage").off("click").on("click", function() {
+            if (magic - Number($(this).data().cost) < 0) return;
             $("#rageSkill").show();
             $(this).hide();
             var cost = Number($(this).data().cost);
@@ -314,6 +320,7 @@ $(document).ready(function(){
 
     function useSkill() {
         $("#healSkill").off("click").on("click", function() {
+            if (mana - 3 < 0) return;
             var _this = $(this);
             $(_this).addClass("loading");
             $("#healEffect").fadeIn(400).delay(200).fadeOut(400);
@@ -332,6 +339,7 @@ $(document).ready(function(){
         })
 
         $("#smiteSkill").off("click").on("click", function() {
+            if (mana - 4 < 0) return;
             var _this = $(this);
             $(_this).addClass("loading");
             $.each($(".enemy"), function(i, enemy) {
@@ -360,6 +368,7 @@ $(document).ready(function(){
         })
 
         $("#rageSkill").off("click").on("click", function() {
+            if (mana - 6 < 0) return;
             var _this = $(this);
             $(_this).addClass("loading");
             
