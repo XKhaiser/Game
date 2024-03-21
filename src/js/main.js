@@ -582,20 +582,20 @@ $(document).ready(function(){
         })
     }
 
-    $(window).on("resize", function() {
-        $("#range").css({
-            "width": (minDistance * 2) + "px",
-            "height": (minDistance * 2) + "px"
-        });
+    // $(window).on("resize", function() {
+    //     $("#range").css({
+    //         "width": (minDistance * 2) + "px",
+    //         "height": (minDistance * 2) + "px"
+    //     });
 
-        if (activeGame)
-            noCheat();
-    });
+    //     if (activeGame)
+    //         noCheat();
+    // });
 
-    $(window).on('blur', function(){
-        if (activeGame)
-            noCheat();
-    });
+    // $(window).on('blur', function(){
+    //     if (activeGame)
+    //         noCheat();
+    // });
 
     function manaRegen() {
         if (mana + 0.02 <= 10) {

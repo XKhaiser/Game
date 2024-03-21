@@ -8,18 +8,90 @@ body .tutorial img {
   border: 4px solid red;
 }
 body .game {
-  background-image: url(/src/img/untitled.png);
+  background-image: url(../img/bg.png);
   background-size: cover;
   background-position: center;
   image-rendering: pixelated;
+  height: 100vh !important;
+}
+body .game #overlays {
+  position: absolute;
+  display: block;
+  height: 100vh !important;
+  width: 100vw !important;
+  overflow: hidden;
+  top: 0;
+}
+body .game #overlays div {
+  position: absolute;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: contain;
+  top: 0;
+  z-index: 1;
+  filter: drop-shadow(0 0 15px #00000088);
+}
+body .game #overlays #ov-top {
+  background-image: url(../img/ov_1.png);
+  top: 0;
+}
+body .game #overlays #ov-bot {
+  background-image: url(../img/ov_1.png);
+  top: 0;
+  transform: rotate(180deg);
+}
+body .game #overlays #ov-left {
+  overflow: hidden;
+}
+body .game #overlays #ov-left:after {
+  content: "";
+  background-image: url(../img/ov_2.png);
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: -25%;
+  left: -25%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform: rotate(-90deg);
+}
+body .game #overlays #ov-right {
+  overflow: hidden;
+}
+body .game #overlays #ov-right:after {
+  content: "";
+  background-image: url(../img/ov_2.png);
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 25%;
+  left: 25%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform: rotate(90deg);
 }
 body .game #hero {
   width: 1vw;
   height: 1vw;
-  background: gainsboro;
-  border-radius: 999px;
   z-index: 1;
-  border: 1px solid gray;
+  position: relative;
+}
+body .game #hero:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -4vw;
+  left: -2vw;
+  width: 6vw;
+  height: 6vw;
+  background-image: url(../img/hero.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 body .game #range {
   border-radius: 9999px;
@@ -36,7 +108,7 @@ body .game .projectile {
   width: 0.5vw;
   height: 0.5vw;
   position: absolute;
-  background: magenta;
+  background: white;
   border-radius: 999px;
 }
 body .game .enemy {
@@ -48,10 +120,24 @@ body .game .enemy {
   background-repeat: no-repeat;
   image-rendering: pixelated;
 }
+body .game .enemy:after {
+  content: "";
+  display: block;
+  width: 100%;
+  position: absolute;
+  bottom: -2px;
+  height: 15%;
+  border-radius: 999px;
+  box-shadow: 0 0 0.3vw 0.1vw #00000044;
+  background: #00000044;
+}
 body .game .hud {
   bottom: 0;
   padding: 1.5vw;
   z-index: 1;
+}
+body .game .hud .text-shadow {
+  text-shadow: 0 0 6px black;
 }
 body .game .hud button.disabled {
   filter: grayscale(1);
