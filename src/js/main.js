@@ -460,7 +460,7 @@ $(document).ready(function(){
                     $(enemy).remove();
 
                     var randomIndex = Math.floor(Math.random() * 5);
-                    var audioFile = "/src/sounds/death" + randomIndex + ".mp3";
+                    var audioFile = "src/sounds/death" + randomIndex + ".mp3";
 
                     var audio = new Audio(audioFile);
 
