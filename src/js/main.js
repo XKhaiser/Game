@@ -94,6 +94,7 @@ $(document).ready(function(){
             buyUpgrade();
             buyAbility();
             useSkill();
+            sounds();
         })
     }
 
@@ -178,6 +179,10 @@ $(document).ready(function(){
 
     function gameStart() {
         tick()
+    }
+
+    function sounds() {
+        $("#track")[0].play();
     }
 
     function tick() {
@@ -453,6 +458,18 @@ $(document).ready(function(){
                 if (distance <= 25) {
                     $(bullet).remove();
                     $(enemy).remove();
+
+                    var randomIndex = Math.floor(Math.random() * 5);
+                    var audioFile = "/src/sounds/death" + randomIndex + ".mp3";
+
+                    var audio = new Audio(audioFile);
+
+                    audio.play();
+
+                    audio.onended = function() {
+                        $(audio).remove();
+                    };
+
                     enemyCd = enemyCd - enemyCd * 0.015;
                     enemySpeed = enemySpeed - enemySpeed * 0.0015;
 
@@ -526,15 +543,17 @@ $(document).ready(function(){
     }
 
     function youDied() {
-
+        
         var endDate = moment();
         var time = moment.duration(endDate.diff(startDate));
-
+        
         $("#leaderboard li").remove()
-
+        
         $(".enemy").remove();
         $(".game").fadeOut(500);
         $("#riepilogo").delay(501).fadeIn(500);
+
+        $("#track")[0].pause();
 
         $("#score").html(score);
         $("#time").html(moment.utc(time.asMilliseconds()).format('HH:mm:ss'));
@@ -582,20 +601,20 @@ $(document).ready(function(){
         })
     }
 
-    $(window).on("resize", function() {
-        $("#range").css({
-            "width": (minDistance * 2) + "px",
-            "height": (minDistance * 2) + "px"
-        });
+    // $(window).on("resize", function() {
+    //     $("#range").css({
+    //         "width": (minDistance * 2) + "px",
+    //         "height": (minDistance * 2) + "px"
+    //     });
 
-        if (activeGame)
-            noCheat();
-    });
+    //     if (activeGame)
+    //         noCheat();
+    // });
 
-    $(window).on('blur', function(){
-        if (activeGame)
-            noCheat();
-    });
+    // $(window).on('blur', function(){
+    //     if (activeGame)
+    //         noCheat();
+    // });
 
     function manaRegen() {
         if (mana + 0.02 <= 10) {
