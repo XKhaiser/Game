@@ -58,6 +58,7 @@ $(document).ready(function(){
     var projID = 0;
     var health = 10;
     var maxHealth = 10;
+    var damage = 1;
 
     var money = 0;
     var magic = 0;
@@ -68,6 +69,7 @@ $(document).ready(function(){
     var cdCounter = 0;
     var eneID = 0;
     var enemySpeed = 15000;
+    var enemyHealth = 1;
     var bulSpeed = 1300;
     var closestElement;
     var minDistance = 300 * (viewportWidth / 1920);
@@ -110,6 +112,7 @@ $(document).ready(function(){
         projID = 0;
         health = 10;
         maxHealth = 10;
+        damage = 1;
 
         money = 0;
         magic = 0;
@@ -120,6 +123,7 @@ $(document).ready(function(){
         cdCounter = 0;
         eneID = 0;
         enemySpeed = 15000;
+        enemyHealth = 1;
         bulSpeed = 1300;
         closestElement;
         minDistance = 300 * (viewportWidth / 1920);
@@ -183,6 +187,7 @@ $(document).ready(function(){
 
     function sounds() {
         $("#track")[0].play();
+        $("#track")[0].volume = 0.3;
     }
 
     function tick() {
@@ -234,8 +239,6 @@ $(document).ready(function(){
         var startPos = {};
             startPos.top = $("#hero").position().top - 45;
             startPos.left = $("#hero").position().left;
-
-        console.log(startPos);
 
         var endPos = {};
             endPos.top = $(target).position().top + 15;
@@ -293,6 +296,17 @@ $(document).ready(function(){
             money = money - parseInt(cost);
             upgrades++;
             cost = cost + (cost * 0.5);
+            $(this).data("cost", parseInt(cost));
+            $(this).find(".cost").html(parseInt(cost));
+            checkMoney()
+        })
+        $("#damage").off("click").on("click", function() {
+            if (money - Number($(this).data().cost) < 0) return;
+            damage++;
+            var cost = Number($(this).data().cost);
+            money = money - parseInt(cost);
+            upgrades++;
+            cost = cost + (cost * 0.6);
             $(this).data("cost", parseInt(cost));
             $(this).find(".cost").html(parseInt(cost));
             checkMoney()
@@ -438,8 +452,27 @@ $(document).ready(function(){
             var endPos = {};
                 endPos.top = $("#hero").position().top;
                 endPos.left = $("#hero").position().left;
+            
+            if (enemyCd < 18) {
+                enemyCd = 45;
+                enemyHealth++;
+                var audioFile = "src/sounds/level.mp3";
 
-            $(".gameContainer").append("<div class='enemy' id='ene" + eneID + "' style='top:" + startPos.top + "px;left:" + startPos.left + "px;background-image: url(" + (x < (viewportWidth / 2) ? "src/img/Goblin_run_right.gif" : "src/img/Goblin_run_left.gif") + ")'></div>");
+                var audio = new Audio(audioFile);
+
+                $("#newLevel").fadeIn("slow").delay(3500).fadeOut("slow");
+                setTimeout(function() {
+                    audio.volume = 1
+                    audio.play();
+                }, 400)
+                
+
+                audio.onended = function() {
+                    $(audio).remove();
+                };
+            }
+
+            $(".gameContainer").append("<div class='enemy' data-health='" + enemyHealth + "' id='ene" + eneID + "' style='top:" + startPos.top + "px;left:" + startPos.left + "px;background-image: url(" + (x < (viewportWidth / 2) ? "src/img/Goblin_run_right.gif" : "src/img/Goblin_run_left.gif") + ")'></div>");
 
             $("#ene" + eneID).animate({
                 top: endPos.top + "px",
@@ -466,7 +499,15 @@ $(document).ready(function(){
                     enemyPos.left = $(enemy).position().left;
 
                 var distance = Math.sqrt(Math.pow((enemyPos.left - bulletPos.left), 2) + Math.pow((enemyPos.top - bulletPos.top), 2));
+                
                 if (distance <= 25) {
+                    var enemyData = Number($(enemy).data().health);
+                    if (enemyData > damage) {
+                        $(enemy).data("health", enemyData - damage);
+                        $(bullet).remove();
+                        return;
+                    }
+                    
                     $(bullet).remove();
                     $(enemy).remove();
 
@@ -476,6 +517,7 @@ $(document).ready(function(){
                     var audio = new Audio(audioFile);
 
                     audio.play();
+                    audio.volume = 0.24;
 
                     audio.onended = function() {
                         $(audio).remove();
@@ -570,10 +612,8 @@ $(document).ready(function(){
         $("#time").html(moment.utc(time.asMilliseconds()).format('HH:mm:ss'));
         $("#upNum").html(upgrades);
         $("#skillNum").html(skills);
-        $("#leaderboard li").remove();
 
         loadTopScoresFromFirebase().then(function(scores) {
-            console.log(scores);
 
             $.each(scores, function(i, point) {
                 if (i <= 9) {
@@ -648,7 +688,6 @@ $(document).ready(function(){
 
     async function addScoreToFirebase(user, score) {
         var campi = await loadTopScoresFromFirebase();
-        console.log(campi);
 
         // Controlla se esiste già un oggetto con la stessa proprietà "user"
         var existingUserIndex = campi.findIndex(item => item.user.toLowerCase() === user.toLowerCase());
@@ -674,7 +713,6 @@ $(document).ready(function(){
         const docRef = doc(db, "scores", "punteggi");
         const docSnap = await getDoc(docRef);
         var data = docSnap.data().scores;
-        console.log(data, docSnap.data())
         const scores = [];
         data.forEach(childSnapshot => {
             const score = childSnapshot;
