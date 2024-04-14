@@ -232,14 +232,25 @@ $(document).ready(function(){
 
     function heroProjectile(target, distance) {
         var startPos = {};
-            startPos.top = $("#hero").position().top;
+            startPos.top = $("#hero").position().top - 45;
             startPos.left = $("#hero").position().left;
 
-        var endPos = {};
-            endPos.top = $(target).position().top;
-            endPos.left = $(target).position().left;
+        console.log(startPos);
 
-        $(".gameContainer").append("<div class='projectile' id='bul" + projID + "'></div>");
+        var endPos = {};
+            endPos.top = $(target).position().top + 15;
+            endPos.left = $(target).position().left + 10;
+
+        // Calcolare la differenza tra le coordinate Y e X
+        var deltaY = endPos.top - startPos.top;
+        var deltaX = endPos.left - startPos.left;
+
+        // Calcolare l'angolo utilizzando Math.atan2()
+        var angleInRadians = Math.atan2(deltaY, deltaX);
+        var angleInDegrees = angleInRadians * (180 / Math.PI);
+
+        $(".gameContainer").append("<div class='projectile' id='bul" + projID + "' style='transform: rotate(" + angleInDegrees + "deg)'></div>");
+        $('#bul' + projID).css("top", startPos.top);
 
         $("#bul" + projID).animate({
             top: endPos.top + "px",
@@ -611,10 +622,10 @@ $(document).ready(function(){
             noCheat();
     });
 
-    $(window).on('blur', function(){
-        if (activeGame)
-            noCheat();
-    });
+    // $(window).on('blur', function(){
+    //     if (activeGame)
+    //         noCheat();
+    // });
 
     function manaRegen() {
         if (mana + 0.02 <= 10) {

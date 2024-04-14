@@ -85,8 +85,18 @@ body .game .projectile {
   width: 0.5vw;
   height: 0.5vw;
   position: absolute;
-  background: white;
-  border-radius: 999px;
+  z-index: 3;
+}
+body .game .projectile:after {
+  background: url(../img/arrow.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  content: "";
+  position: absolute;
+  transform: translateX(-50%) translateY(-39%);
+  width: 400%;
+  height: 400%;
 }
 body .game .enemy {
   width: 1.7vw;
