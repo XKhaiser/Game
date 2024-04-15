@@ -128,6 +128,8 @@ $(document).ready(function(){
         closestElement;
         minDistance = 300 * (viewportWidth / 1920);
 
+        $(".tempScore span").html(0)
+
         $("#range").css({
             "width": (minDistance * 2) + "px",
             "height": (minDistance * 2) + "px"
@@ -200,6 +202,7 @@ $(document).ready(function(){
                 checkHit();
                 checkDamage();
                 manaRegen();
+                updateTime();
         
             }, 1000 / fps);
         }
@@ -528,6 +531,9 @@ $(document).ready(function(){
 
                     money += 1;
                     score += 1;
+
+                    $(".tempScore span").html(score)
+
                     checkMoney();
                     if (score % 10 === 0) {
                         magic += 1;
@@ -636,6 +642,13 @@ $(document).ready(function(){
         })
     }
 
+    function updateTime() {
+        var date = moment();
+        var time = moment.duration(date.diff(startDate));
+
+        $(".time span").html(moment.utc(time.asMilliseconds()).format('HH:mm:ss'));
+    }
+
     function noCheat() {
         if (!activeGame) return;
         score = 0;
@@ -662,10 +675,10 @@ $(document).ready(function(){
             noCheat();
     });
 
-    $(window).on('blur', function(){
-        if (activeGame)
-            noCheat();
-    });
+    // $(window).on('blur', function(){
+    //     if (activeGame)
+    //         noCheat();
+    // });
 
     function manaRegen() {
         if (mana + 0.02 <= 10) {
