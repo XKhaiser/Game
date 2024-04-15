@@ -306,7 +306,7 @@ $(document).ready(function(){
             var cost = Number($(this).data().cost);
             money = money - parseInt(cost);
             upgrades++;
-            cost = cost + (cost * 0.6);
+            cost = cost + (cost * 0.85);
             $(this).data("cost", parseInt(cost));
             $(this).find(".cost").html(parseInt(cost));
             checkMoney()
@@ -453,7 +453,7 @@ $(document).ready(function(){
                 endPos.top = $("#hero").position().top;
                 endPos.left = $("#hero").position().left;
             
-            if (enemyCd < 18) {
+            if (enemyCd < 14) {
                 enemyCd = 45;
                 enemyHealth++;
                 var audioFile = "src/sounds/level.mp3";
@@ -523,8 +523,8 @@ $(document).ready(function(){
                         $(audio).remove();
                     };
 
-                    enemyCd = enemyCd - enemyCd * 0.015;
-                    enemySpeed = enemySpeed - enemySpeed * 0.0015;
+                    enemyCd = enemyCd - enemyCd * 0.02;
+                    enemySpeed = enemySpeed - enemySpeed * 0.0023;
 
                     money += 1;
                     score += 1;
@@ -662,10 +662,10 @@ $(document).ready(function(){
             noCheat();
     });
 
-    // $(window).on('blur', function(){
-    //     if (activeGame)
-    //         noCheat();
-    // });
+    $(window).on('blur', function(){
+        if (activeGame)
+            noCheat();
+    });
 
     function manaRegen() {
         if (mana + 0.02 <= 10) {
