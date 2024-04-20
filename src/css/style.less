@@ -11,7 +11,7 @@ body {
     }
 
     .currency {
-        min-width: 6%;
+        text-align: end;
     }
 
     #newLevel {
@@ -24,6 +24,11 @@ body {
         background-position: center;
         image-rendering: pixelated;
         height: 100vh !important;
+
+        .damage {
+            color: white;
+            font-weight: 800;
+        }
 
         #overlays {
             position: absolute;
@@ -118,8 +123,8 @@ body {
                 content: "";
                 position: absolute;
                 transform: translateX(-50%) translateY(-39%);
-                width: 400%;
-                height: 400%;
+                width: 300%;
+                height: 300%;
             }
         }
 
@@ -131,6 +136,13 @@ body {
             background-size: cover;
             background-repeat: no-repeat;
             image-rendering: pixelated;
+
+            .enemyHealth {
+                height: 0.17vw;
+                background: red;
+                top: 2.2vw;
+                position: relative;
+            }
         }
 
         .enemy:after {

@@ -475,7 +475,12 @@ $(document).ready(function(){
                 };
             }
 
-            $(".gameContainer").append("<div class='enemy' data-health='" + enemyHealth + "' id='ene" + eneID + "' style='top:" + startPos.top + "px;left:" + startPos.left + "px;background-image: url(" + (x < (viewportWidth / 2) ? "src/img/Goblin_run_right.gif" : "src/img/Goblin_run_left.gif") + ")'></div>");
+            var enemyHtml = "<div class='enemy' data-health='" + enemyHealth + "' data-maxhealth='" + enemyHealth + "' id='ene" + eneID + "' style='top:" + startPos.top + "px;left:" + startPos.left + "px;background-image: url(" + (x < (viewportWidth / 2) ? "src/img/Goblin_run_right.gif" : "src/img/Goblin_run_left.gif") + ")'>" +
+                                '<div class="enemyHealth" style="width:100%">' +
+                                '</div>' +
+                            "</div>"
+
+            $(".gameContainer").append(enemyHtml);
 
             $("#ene" + eneID).animate({
                 top: endPos.top + "px",
@@ -505,8 +510,25 @@ $(document).ready(function(){
                 
                 if (distance <= 25) {
                     var enemyData = Number($(enemy).data().health);
+                    var random = Math.floor(Math.random() * 359)
+                    var hitID = projID;
+
+                    var hit = '<img class="position-absolute hit' + hitID + '" style="top:' + (enemyPos.top - 20) + 'px;left:' + (enemyPos.left - 20) + 'px;width:4.5vw;height:4.5vw;transform:rotate(' + random + 'deg)" src="src/img/hit.gif" />'
+                    var hitDamage = '<h6 class="position-absolute damage dam' + hitID + '" style="display:none;top:' + (enemyPos.top - 20) + 'px;left:' + (enemyPos.left + 20) + 'px;">' + damage + '</h6>';
+
+                    $(".game").append(hit);
+                    $(".game").append(hitDamage);
+                    $(".hit" + hitID).delay(500).fadeOut(100, function() {
+                        $(this).remove();
+                    });
+                    $(".dam" + hitID).show().delay(300).fadeOut(800, function() {
+                        $(this).remove();
+                    });
+
                     if (enemyData > damage) {
                         $(enemy).data("health", enemyData - damage);
+                        var healthBar = ($(enemy).data("health") / $(enemy).data("maxhealth")) * 100;
+                        $(enemy).find(".enemyHealth").css("width", healthBar + "%");
                         $(bullet).remove();
                         return;
                     }
