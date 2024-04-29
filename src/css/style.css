@@ -2,6 +2,32 @@ body {
   height: 100vh;
   overflow: hidden !important;
   font-family: 'Teko', sans-serif;
+  background-image: url("../img/image.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+body .menu .d-flex > img {
+  width: 20vw;
+  filter: drop-shadow(4px 4px 10px #00000088);
+}
+body .menu button {
+  width: 13vw;
+  margin: auto;
+  filter: drop-shadow(3px 3px 7px #00000088) brightness(1);
+  transition: 0.3s;
+}
+body .menu button:hover {
+  filter: drop-shadow(3px 3px 7px #00000088) brightness(1.2);
+}
+body .menu a {
+  bottom: 1vw;
+  right: 1vw;
+  filter: drop-shadow(3px 3px 7px #00000088) brightness(1);
+  transition: 0.3s;
+}
+body .menu a:hover {
+  filter: drop-shadow(3px 3px 7px #00000088) brightness(1.2);
 }
 body .tutorial img {
   border-radius: 20px;
