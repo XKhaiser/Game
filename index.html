@@ -24,13 +24,19 @@
   <div class="menu h-100">
     <div class="h-100 w-100 d-flex align-items-center flex-column py-5 pe-5">
       <img src="src/img/Risorsa 4.png"/>
-      <button class="btn" id="start">
+      <button class="btn disabled border-0" id="start">
         <img class="img-fluid" src="src/img/Risorsa 3.png" />
       </button>
     </div>
     <a class="position-absolute" href="https://paypal.me/ZANN4?country.x=IT&locale.x=it_IT" target="_blank">
       <img src="src/img/Risorsa 2.png" />
     </a>
+    <button class="btn border-0 position-absolute" id="profile">
+      <div class="d-flex justify-content-between align-items-center h-100">
+        <h5 id="username" class="w-auto mb-0 text-center">LOGIN</h5>
+        <img src="src/img/Risorsa 6.png" id="imgUser"/>
+      </div>
+    </button>
   </div>
   <div class="tutorial h-100" style="display:none;background:#00000033;">
     <div class="d-flex justify-content-center align-items-center w-100 h-100">
@@ -176,11 +182,9 @@
           Se stai riscontrando dei problemi o hai dei suggerimenti ti chiedo gentilmente di scriverlo nella sezione <a href="https://github.com/BlenderItaliaHub/Suzanne-Bot/issues/new" target="_blank">issue</a> del progetto su Github.<br />
           <b>Grazie e buon divertimento!!</b><br />
           <i>- Zanna</i>
-          <h5 class="mt-4 mb-0">Per iniziare inserisci il tuo nome</h5>
-          <input type="text" class="form-control" placeholder="Nome" id="userName" maxlength="15"></input>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="save">Salva</button>
+          <button type="button" class="btn btn-primary" id="save">Conferma</button>
         </div>
       </div>
     </div>

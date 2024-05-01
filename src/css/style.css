@@ -7,6 +7,36 @@ body {
   background-size: cover;
   background-position: center;
 }
+body .menu #profile {
+  width: auto;
+  height: 8vh;
+  padding: 0;
+  top: 1vw;
+  right: 1vw;
+  background-image: url("../img/Risorsa\ 5.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  aspect-ratio: 275 / 86;
+}
+body .menu #profile #username {
+  flex: auto;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 6px;
+  letter-spacing: 1.2px;
+}
+body .menu #profile > div {
+  position: relative;
+}
+body .menu #profile img {
+  height: 72%;
+  width: auto;
+  aspect-ratio: 1;
+  clip-path: circle();
+  margin: 4.2%;
+}
 body .menu .d-flex > img {
   width: 20vw;
   filter: drop-shadow(4px 4px 10px #00000088);

@@ -8,6 +8,39 @@ body {
     background-position: center;
 
     .menu {
+        #profile {
+            width: auto;
+            height: 8vh;
+            padding: 0;
+            top: 1vw;
+            right: 1vw;
+            background-image: url("../img/Risorsa\ 5.png");
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            aspect-ratio: 275 / 86;
+
+            #username {
+                flex: auto;
+                text-transform: uppercase;
+                font-weight: 700;
+                color: #fff;
+                margin-top: 6px;
+                letter-spacing: 1.2px;
+            }
+
+            > div {
+                position: relative;
+            }
+
+            img {
+                height: 72%;
+                width: auto;
+                aspect-ratio: 1;
+                clip-path: circle();
+                margin: 4.2%;
+            }
+        }
 
         .d-flex > img {
             width: 20vw;
