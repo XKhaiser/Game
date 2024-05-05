@@ -21,6 +21,7 @@ var db = getFirestore(firebase);
 
 var YOUR_CLIENT_ID = '368381369169-v4rlubsvcj6sj6m9eoqs9hdm9ukoes9u.apps.googleusercontent.com';
 var YOUR_REDIRECT_URI = location.href.replace("/#", "");
+console.log(YOUR_REDIRECT_URI)
 var fragmentString = location.hash.substring(1);
 var user;
 
@@ -120,7 +121,6 @@ $(document).ready(function(){
     $('#modalStart').modal('show');
 
     var tutorialCompleted = false;
-    // var user = "";
 
     $("#save").off("click").on("click", function() {
         $('#modalStart').modal('hide');
@@ -141,17 +141,22 @@ $(document).ready(function(){
     var startDate = moment();
 
     var activeGame = false;
+    var dead = false;
 
     var heroSpeed = 45;
     var speedCounter = 0;
     var projID = 0;
     var health = 10;
     var maxHealth = 10;
+    var healthRegen = 0;
     var damage = 1;
 
     var money = 0;
+    var income = 1;
     var magic = 0;
-    var mana = 0;
+    var mana = 10;
+    var maxMana = 10;
+    var manaRegen = 0.0025;
     var score = 0;
 
     var enemyCd = 45;
@@ -162,6 +167,11 @@ $(document).ready(function(){
     var bulSpeed = 1300;
     var closestElement;
     var minDistance = 300 * (viewportWidth / 1920);
+
+    $("#btnMoney > div").css("display", "flex").hide();
+    $("#btnMoney > div").first().show();
+    $(".selUpgrade > button").removeClass("active")
+    $(".selUpgrade > button").first().addClass("active")
 
     $("#range").css({
         "width": (minDistance * 2) + "px",
@@ -196,16 +206,22 @@ $(document).ready(function(){
 
         startDate = moment();
 
+        dead = false;
+
         heroSpeed = 45;
         speedCounter = 0;
         projID = 0;
         health = 10;
         maxHealth = 10;
+        healthRegen = 0
         damage = 1;
 
         money = 0;
+        income = 1;
         magic = 0;
         mana = 10;
+        maxMana = 10;
+        manaRegen = 0.0025;
         score = 0;
 
         enemyCd = 45;
@@ -234,7 +250,7 @@ $(document).ready(function(){
 
         getDamage(true);
 
-        $(".game button").addClass("disabled");
+        $(".game button:not(.selUpgrade button)").addClass("disabled");
         $(".skills button").hide();
         $("#smite, #heal, #rage").show();
 
@@ -242,6 +258,13 @@ $(document).ready(function(){
             $(button).removeData();
             $(button).find(".cost").html($(button).attr("data-cost"))
         })
+
+        $("#btnMoney > div").css("display", "flex").hide();
+        $("#btnMoney > div").first().show();
+        $(".selUpgrade > button").removeClass("active")
+        $(".selUpgrade > button").first().addClass("active")
+
+        initUpgradeMenu();
     }
 
     function tutorial() {
@@ -290,12 +313,36 @@ $(document).ready(function(){
                 enemySpawn();
                 checkHit();
                 checkDamage();
-                manaRegen();
+                regen();
                 updateTime();
         
             }, 1000 / fps);
         }
     }
+
+    function initUpgradeMenu() {
+        $("#offenseBtn").off("click").on("click", function() {
+            $(".selUpgrade button").removeClass("active");
+            $(this).addClass("active");
+
+            $("#btnMoney > div").hide();
+            $("#offenseSec").show();
+        });
+        $("#defenseBtn").off("click").on("click", function() {
+            $(".selUpgrade button").removeClass("active");
+            $(this).addClass("active");
+
+            $("#btnMoney > div").hide();
+            $("#defenseSec").show();
+        });
+        $("#utilityBtn").off("click").on("click", function() {
+            $(".selUpgrade button").removeClass("active");
+            $(this).addClass("active");
+
+            $("#btnMoney > div").hide();
+            $("#utilitySec").show();
+        });
+    };
 
     function shoot() {
         closestElement = null;
@@ -403,6 +450,70 @@ $(document).ready(function(){
             $(this).find(".cost").html(parseInt(cost));
             checkMoney()
         })
+
+        // Defense
+        $("#maxHealth").off("click").on("click", function() {
+            if (money - Number($(this).data().cost) < 0) return;
+            health += parseInt(maxHealth * 0.25);
+            maxHealth += parseInt(maxHealth * 0.25);
+            getDamage(true);
+            var cost = Number($(this).data().cost);
+            money = money - parseInt(cost);
+            upgrades++;
+            cost = cost + (cost * 0.85);
+            $(this).data("cost", parseInt(cost));
+            $(this).find(".cost").html(parseInt(cost));
+            checkMoney()
+        })
+        $("#healthRegen").off("click").on("click", function() {
+            if (money - Number($(this).data().cost) < 0) return;
+            healthRegen += 0.001;
+            var cost = Number($(this).data().cost);
+            money = money - parseInt(cost);
+            upgrades++;
+            cost = cost + (cost * 0.85);
+            $(this).data("cost", parseInt(cost));
+            $(this).find(".cost").html(parseInt(cost));
+            checkMoney()
+        })
+
+        // Utility
+        $("#maxMana").off("click").on("click", function() {
+            if (money - Number($(this).data().cost) < 0) return;
+            mana += parseInt(maxMana * 0.25);
+            maxMana += parseInt(maxMana * 0.25);
+            getDamage(true);
+            var cost = Number($(this).data().cost);
+            money = money - parseInt(cost);
+            upgrades++;
+            cost = cost + (cost * 0.85);
+            $(this).data("cost", parseInt(cost));
+            $(this).find(".cost").html(parseInt(cost));
+            checkMoney()
+        })
+        $("#manaRegen").off("click").on("click", function() {
+            if (money - Number($(this).data().cost) < 0) return;
+            manaRegen += 0.001;
+            var cost = Number($(this).data().cost);
+            money = money - parseInt(cost);
+            upgrades++;
+            cost = cost + (cost * 0.85);
+            $(this).data("cost", parseInt(cost));
+            $(this).find(".cost").html(parseInt(cost));
+            checkMoney()
+        })
+        $("#income").off("click").on("click", function() {
+            if (money - Number($(this).data().cost) < 0) return;
+            income += income * 0.25;
+            var cost = Number($(this).data().cost);
+            money = money - parseInt(cost);
+            upgrades++;
+            cost = cost + (cost * 0.85);
+            $(this).data("cost", parseInt(cost));
+            $(this).find(".cost").html(parseInt(cost));
+            checkMoney()
+        })
+
     }
 
     function buyAbility() {
@@ -467,6 +578,15 @@ $(document).ready(function(){
             $.each($(".enemy"), function(i, enemy) {
                 var random = Math.floor(Math.random() * (1000 - 300 + 1)) + 300;
 
+                var smiteHtml = '<div class="enemySmite" id="smite' + i + '" style="top:' + $(enemy).position().top + 'px;left:' + $(enemy).position().left + 'px"><img src="src/img/smite.gif" /></div>';
+
+                setTimeout(function() {
+                    $(".gameContainer").append(smiteHtml);
+                    setTimeout(function() {
+                        $("#smite" + i).remove();
+                    }, 1550)
+                }, random)
+                
                 $(enemy).delay(random).stop().fadeOut(300, function() {
                     $(enemy).remove();
                     enemyCd = enemyCd - enemyCd * 0.02;
@@ -640,7 +760,7 @@ $(document).ready(function(){
                     enemyCd = enemyCd - enemyCd * 0.02;
                     enemySpeed = enemySpeed - enemySpeed * 0.0023;
 
-                    money += 1;
+                    money += income;
                     score += 1;
 
                     $(".tempScore span").html(score)
@@ -699,13 +819,15 @@ $(document).ready(function(){
         if (!heal) 
             health = health -1;
 
-        $("#healthValue").html(health);
+        $("#healthValue").html(parseInt(health));
+        $("#healthMax").html(maxHealth);
         $(".health .progress-bar").css("width", (health / maxHealth) * 100 + "%");
 
         if (health <= 0) {
             activeGame = false;
 
-            if (activeGame) return;
+            if (activeGame && dead) return;
+            dead = true;
             addScoreToFirebase(user, score).then(function() {
                 youDied();
             });
@@ -786,20 +908,29 @@ $(document).ready(function(){
             noCheat();
     });
 
-    $(window).on('blur', function(){
-        if (activeGame)
-            noCheat();
-    });
+    // $(window).on('blur', function(){
+    //     if (activeGame)
+    //         noCheat();
+    // });
 
-    function manaRegen() {
-        if (mana + 0.02 <= 10) {
-            mana += 0.005;
+    function regen() {
+        if (mana + manaRegen < maxMana) {
+            mana += manaRegen;
         } else {
-            mana = 10;
+            mana = maxMana;
         }
 
-        $(".mana .progress-bar").css("width", (mana / 10) * 100 + "%");
+        if (health + healthRegen < maxHealth) {
+            health += healthRegen;
+        } else {
+            health = maxHealth;
+        }
+
+        getDamage(true);
+
+        $(".mana .progress-bar").css("width", (mana / maxMana) * 100 + "%");
         $("#manaValue").html(parseInt(mana));
+        $("#manaMax").html(maxMana);
 
         $.each($(".skills button"), function() {
             if (mana >= $(this).data().cost) {

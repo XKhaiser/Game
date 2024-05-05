@@ -190,6 +190,18 @@ body .game .enemy:after {
   box-shadow: 0 0 0.3vw 0.1vw #00000044;
   background: #00000044;
 }
+body .game .enemySmite {
+  margin-top: -2vw;
+  margin-left: -2vw;
+  width: 5vw;
+  height: 5vw;
+  position: absolute;
+}
+body .game .enemySmite img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 body .game .hud {
   bottom: 0;
   padding: 1.5vw;
