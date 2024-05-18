@@ -243,6 +243,15 @@ body {
             padding: 1.5vw;
             z-index: 1;
 
+            #pause {
+                top: 10px;
+                left: 49%;
+
+                button {
+                    line-height: 0;
+                }
+            }
+
             .text-shadow {
                 text-shadow: 0 0 6px black;
             }
@@ -348,5 +357,11 @@ body {
                 transition: none !important;
             }
         }
+    }
+
+    #pauseMenu {
+        background: #00000088;
+        backdrop-filter: blur(3px);
+        z-index: 99;
     }
 }

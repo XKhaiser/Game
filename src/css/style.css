@@ -207,6 +207,13 @@ body .game .hud {
   padding: 1.5vw;
   z-index: 1;
 }
+body .game .hud #pause {
+  top: 10px;
+  left: 49%;
+}
+body .game .hud #pause button {
+  line-height: 0;
+}
 body .game .hud .text-shadow {
   text-shadow: 0 0 6px black;
 }
@@ -281,4 +288,9 @@ body #cheats > div {
 }
 body #cheats > div .progress-bar {
   transition: none !important;
+}
+body #pauseMenu {
+  background: #00000088;
+  backdrop-filter: blur(3px);
+  z-index: 99;
 }

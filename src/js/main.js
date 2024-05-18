@@ -58,6 +58,7 @@ function trySampleRequest() {
         .then(data => {
             console.log(data);
             user = data;
+            loadTopScoresFromFirebase();
             initMenu();
         })
         .catch(error => {
@@ -137,6 +138,12 @@ $(document).ready(function(){
     var fps = 30;
     var viewportHeight = $(window).height();
     var viewportWidth = $(window).width();
+    var giocoFinito = false;
+    var pause = false;
+
+    $("#pauseBtn").off("click").on("click", function() {
+        pauseGame();
+    })
 
     var startDate = moment();
 
@@ -207,6 +214,7 @@ $(document).ready(function(){
         startDate = moment();
 
         dead = false;
+        giocoFinito = false;
 
         heroSpeed = 45;
         speedCounter = 0;
@@ -250,7 +258,7 @@ $(document).ready(function(){
 
         getDamage(true);
 
-        $(".game button:not(.selUpgrade button)").addClass("disabled");
+        $(".game button:not(.selUpgrade button, #pauseBtn)").addClass("disabled");
         $(".skills button").hide();
         $("#smite, #heal, #rage").show();
 
@@ -308,6 +316,7 @@ $(document).ready(function(){
         if (activeGame) {
             setTimeout(function() {
                 requestAnimationFrame(tick);
+                if (pause) return;
                 
                 shoot();
                 enemySpawn();
@@ -835,6 +844,9 @@ $(document).ready(function(){
     }
 
     function youDied() {
+        if (giocoFinito) return;
+
+        giocoFinito = true;
         
         var endDate = moment();
         var time = moment.duration(endDate.diff(startDate));
@@ -853,7 +865,6 @@ $(document).ready(function(){
         $("#skillNum").html(skills);
 
         loadTopScoresFromFirebase().then(function(scores) {
-
             $.each(scores, function(i, point) {
                 if (i <= 9) {
                     var html = '<li class="list-group-item d-flex justify-content-between align-items-center gap-4"><h6>' + point.user.given_name + '</h6><h6>' + point.score + '</h6></li>';
@@ -964,18 +975,32 @@ $(document).ready(function(){
         });
     }
 
-    async function loadTopScoresFromFirebase() {
-        const docRef = doc(db, "scores", "punteggi");
-        const docSnap = await getDoc(docRef);
-        var data = docSnap.data().scores;
-        const scores = [];
-        data.forEach(childSnapshot => {
-            const score = childSnapshot;
-            scores.push(score);
-        });
-        scores.sort(function (a, b) {
-            return b.score - a.score;
-        }); // Ordina in modo decrescente
-        return scores;
+    function pauseGame() {
+
+        pause = true;
+        $("*").pause();
+
+        $("#pauseMenu").fadeIn();
+
+        $("#pauseMenu button").off("click").on("click", function() {
+            pause = false;
+            $("#pauseMenu").fadeOut();
+            $("*").resume();
+        })
     }
  });
+
+async function loadTopScoresFromFirebase() {
+    const docRef = doc(db, "scores", "punteggi");
+    const docSnap = await getDoc(docRef);
+    var data = docSnap.data().scores;
+    const scores = [];
+    data.forEach(childSnapshot => {
+        const score = childSnapshot;
+        scores.push(score);
+    });
+    scores.sort(function (a, b) {
+        return b.score - a.score;
+    }); // Ordina in modo decrescente
+    return scores;
+}
