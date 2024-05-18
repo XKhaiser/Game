@@ -919,10 +919,9 @@ $(document).ready(function(){
             noCheat();
     });
 
-    // $(window).on('blur', function(){
-    //     if (activeGame)
-    //         noCheat();
-    // });
+    $(window).on('blur', function(){
+        pauseGame();
+    });
 
     function regen() {
         if (mana + manaRegen < maxMana) {
