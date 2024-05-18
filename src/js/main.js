@@ -920,7 +920,8 @@ $(document).ready(function(){
     });
 
     $(window).on('blur', function(){
-        pauseGame();
+        if (activeGame)
+            pauseGame();
     });
 
     function regen() {
