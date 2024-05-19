@@ -738,6 +738,7 @@ $(document).ready(function(){
                                     $("*").resume();
                                     pause = false;
                                     $("#tutContainer").hide();
+                                    tutLoading = false;
                                 });
                             })
                         }, 7500)
