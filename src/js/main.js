@@ -58,8 +58,15 @@ function trySampleRequest() {
         .then(data => {
             console.log(data);
             user = data;
-            loadTopScoresFromFirebase();
-            initMenu();
+            loadTopScoresFromFirebase().then(function (userScore) {
+                var existingUserIndex = userScore.findIndex(item => item.user.id === user.id);
+                console.log(existingUserIndex);
+                initMenu();
+
+                if (existingUserIndex !== -1) {
+                    $(".form-check label").click();
+                }
+            });
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
@@ -128,11 +135,7 @@ $(document).ready(function(){
     })
 
     $("#start").off("click").on("click", function() {
-        if (!tutorialCompleted) {
-            tutorial();
-        } else {
-            initGame()
-        }
+        initGame()
     })
 
     var fps = 30;
@@ -140,6 +143,9 @@ $(document).ready(function(){
     var viewportWidth = $(window).width();
     var giocoFinito = false;
     var pause = false;
+    var isTutorial = false;
+    var firstEnemy = false;
+    var tutLoading = false;
 
     $("#pauseBtn").off("click").on("click", function() {
         pauseGame();
@@ -216,6 +222,10 @@ $(document).ready(function(){
         dead = false;
         giocoFinito = false;
 
+        isTutorial = $(".form-check input").is(":checked");
+        firstEnemy = false;
+        tutLoading = false;
+
         heroSpeed = 45;
         speedCounter = 0;
         projID = 0;
@@ -273,34 +283,6 @@ $(document).ready(function(){
         $(".selUpgrade > button").first().addClass("active")
 
         initUpgradeMenu();
-    }
-
-    function tutorial() {
-        $(".menu").fadeOut(500);
-        $(".tutorial").delay(501).fadeIn(500);
-        $(".tutorial").off("click").on("click", function() {
-            if ($(".tutorial .imgTut1").is(":visible")) {
-                $(".tutorial .imgTut1").fadeOut(function(){
-                    $(".tutorial .imgTut2").fadeIn();
-                });
-            } else if ($(".tutorial .imgTut2").is(":visible")) {
-                $(".tutorial .imgTut2").fadeOut(function(){
-                    $(".tutorial .imgTut3").fadeIn();
-                });
-            } else if ($(".tutorial .imgTut3").is(":visible")) {
-                $(".tutorial .imgTut3").fadeOut(function(){
-                    $(".tutorial .imgTut4").fadeIn();
-                });
-            } else if ($(".tutorial .imgTut4").is(":visible")) {
-                $(".tutorial .imgTut4").fadeOut(function(){
-                    $(".tutorial .imgTut5").fadeIn();
-                });
-            } else {
-                tutorialCompleted = true;
-                $(".tutorial").fadeOut(500);
-                initGame();
-            }
-        })
     }
 
     function gameStart() {
@@ -644,6 +626,9 @@ $(document).ready(function(){
 
             // Genera un lato casuale (0 = sinistra, 1 = destra, 2 = superiore, 3 = inferiore)
             var side = Math.floor(Math.random() * 4);
+
+            if (!firstEnemy && isTutorial)
+                side = 1;
             
             // Genera le coordinate casuali in base al lato scelto
             var x, y;
@@ -654,7 +639,7 @@ $(document).ready(function(){
                 break;
                 case 1: // Destra
                 x = viewportWidth;
-                y = Math.floor(Math.random() * viewportHeight);
+                y = !firstEnemy && isTutorial ? viewportHeight / 2 : Math.floor(Math.random() * viewportHeight);
                 break;
                 case 2: // Superiore
                 x = Math.floor(Math.random() * viewportWidth);
@@ -693,6 +678,8 @@ $(document).ready(function(){
                 };
             }
 
+            var idNemico = eneID;
+
             var enemyHtml = "<div class='enemy' data-health='" + enemyHealth + "' data-maxhealth='" + enemyHealth + "' id='ene" + eneID + "' style='top:" + startPos.top + "px;left:" + startPos.left + "px;background-image: url(" + (x < (viewportWidth / 2) ? "src/img/Goblin_run_right.gif" : "src/img/Goblin_run_left.gif") + ")'>" +
                                 '<div class="enemyHealth" style="width:100%">' +
                                 '</div>' +
@@ -706,11 +693,75 @@ $(document).ready(function(){
             }, enemySpeed * randomSpeed, "linear", function() {
                 $(this).remove();
             })
+
+            if (!firstEnemy && isTutorial) {
+                tutLoading = true;
+                setTimeout(function(){
+                    $("#tutContainer").show();
+
+                    var enPos = $("#ene" + idNemico).position();
+                    console.log(enPos)
+
+                    var htmlDiv = "<div id='tutEnemy' class='position-absolute h-100 w-100 top-0' style='background-image: radial-gradient(circle at " + (enPos.left + 15) + "px " + (enPos.top + 18) + "px" + ", transparent 2.5vw, #0000005a 3vw);display:none;'></div>";
+
+                    $("*").pause();
+                    pause = true;
+                    $("#tutContainer").html(htmlDiv);
+                    $("#tutEnemy").fadeIn("slow");
+
+                    var htmlCapMessage1 =    '<div class="my-auto ms-5">' +
+                                                '<div class="p-4 rounded bg-dark text-white" id="tutEnemyMsg1" style="display:none;"><h5>Capitano</h5><p class="mb-0"></p></div>'
+                                            '</div>';
+
+                    $("#tutEnemy").append(htmlCapMessage1);
+                    $("#tutEnemyMsg1").fadeIn("slow", function() {
+                        var text = "Comandante, i goblin stanno avanzando verso di noi!";
+
+                        textTypingEffect($("#tutEnemyMsg1 p"), text);
+                    })
+
+                    var htmlCapMessage2 = '<div class="p-4 rounded bg-dark text-white mt-3" id="tutEnemyMsg2" style="display:none;"><h5>Capitano</h5><p class="mb-0"></p></div>';
+
+                    $("#tutEnemyMsg1").after(htmlCapMessage2);
+                    $("#tutEnemyMsg2").delay(4500).fadeIn("slow", function() {
+                        var text = "Niente panico, Comandante!<br /> La torre lancerà automaticamente frecce contro il nemico più vicino.<br /> Prepariamoci a respingerli!";
+
+                        textTypingEffect($("#tutEnemyMsg2 p"), text);
+
+                        setTimeout(function() {
+                            $("#tutEnemyMsg2").after("<p id='tutEnemyClose' class='text-end text-white text-shadow fw-light mt-3' style='display:none;'>Clicca sullo schermo per continuare</p>");
+
+                            $("#tutEnemyClose").fadeIn("slow");
+                            $("#tutEnemy").off("click").on("click", function() {
+                                $(this).fadeOut("slow", function() {
+                                    $("#tutEnemy").remove()
+                                    $("*").resume();
+                                    pause = false;
+                                    $("#tutContainer").hide();
+                                });
+                            })
+                        }, 7500)
+                    })
+                }, 6500)
+            }
+
+            firstEnemy = true;
             eneID++;
             cdCounter = 0;
             return;
         }
         cdCounter++
+    }
+
+    function textTypingEffect(element, text, i = 0) {
+        $(element).html(text.substring(0, i + 1));
+    
+        // Se abbiamo raggiunto la fine della stringa
+        if (i === text.length - 1) {
+            return;
+        }
+    
+        setTimeout(() => textTypingEffect(element, text, i + 1), 38);
     }
 
     function checkHit() {
@@ -920,7 +971,7 @@ $(document).ready(function(){
     });
 
     $(window).on('blur', function(){
-        if (activeGame)
+        if (activeGame && !tutLoading)
             pauseGame();
     });
 

@@ -44,6 +44,7 @@ body .menu .d-flex > img {
 body .menu button {
   width: 13vw;
   margin: auto;
+  margin-top: 0;
   filter: drop-shadow(3px 3px 7px #00000088) brightness(1);
   transition: 0.3s;
 }
@@ -75,6 +76,16 @@ body .game {
   background-position: center;
   image-rendering: pixelated;
   height: 100vh !important;
+}
+body .game #tutContainer {
+  z-index: 98;
+}
+body .game #tutContainer #tutEnemy > div {
+  left: 20%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: fit-content;
+  position: relative;
 }
 body .game .damage {
   color: white;

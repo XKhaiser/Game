@@ -50,6 +50,7 @@ body {
         button {
             width: 13vw;
             margin: auto;
+            margin-top: 0;
             filter: drop-shadow(3px 3px 7px #00000088) brightness(1);
             transition: .3s;
 
@@ -91,6 +92,20 @@ body {
         background-position: center;
         image-rendering: pixelated;
         height: 100vh !important;
+
+        #tutContainer {
+            z-index: 98;
+
+            #tutEnemy {
+                > div {
+                    left: 20%;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: fit-content;
+                    position: relative;
+                }
+            }
+        }
 
         .damage {
             color: white;
