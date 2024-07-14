@@ -4,7 +4,8 @@
         "title": "Patch 0.0.1",
         "changes": {
             "features": [
-                "Aggiunte patch notes"
+                "Aggiunte patch notes",
+                "Cambiato font"
             ],
             "fixes": [
                 "Risolto qualche errore grafico del tutorial"
