@@ -1,7 +1,7 @@
 function addPatchNotes() {
     $.ajax({
         type: "GET",
-        url: "https://github.com/XKhaiser/Game/blob/main/src/json/patches.json",
+        url: "https://raw.githubusercontent.com/XKhaiser/Game/main/src/json/patches.json",
         data: "data",
         dataType: "json",
         success: function (response) {
