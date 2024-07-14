@@ -15,6 +15,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tower Defense game | by Zanna</title>
@@ -206,17 +208,28 @@
   </div>
 
   <div class="modal fade" id="modalStart" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modalStartLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalStartLabel">Benvenuto!</h5>
+          <h4 class="modal-title" id="modalStartLabel"><b>Benvenuto!</b></h4>
         </div>
-        <div class="modal-body">
-          Questo gioco è ancora in fase di sviluppo e quasi giornalmente ci saranno degli aggiornamenti per completare le funzionalità mancanti o migliorare quelle esistenti.<br /><br />
-          Il gioco non è ancora ottimizzato per essere giocato sui telefoni, provalo su PC.<br /><br />
-          Se stai riscontrando dei problemi o hai dei suggerimenti ti chiedo gentilmente di scriverlo nella sezione <a href="https://github.com/BlenderItaliaHub/Suzanne-Bot/issues/new" target="_blank">issue</a> del progetto su Github.<br />
-          <b>Grazie e buon divertimento!!</b><br />
-          <i>- Zanna</i>
+        <div class="modal-body d-flex flex-row justify-content-between gap-3">
+          <div>
+            Questo gioco è ancora in fase di sviluppo e quasi giornalmente ci saranno degli aggiornamenti per completare le funzionalità mancanti o migliorare quelle esistenti.<br /><br />
+            Il gioco non è ancora ottimizzato per essere giocato sui telefoni, provalo su PC.<br /><br />
+            Se stai riscontrando dei problemi o hai dei suggerimenti ti chiedo gentilmente di scriverlo nella sezione <a href="https://github.com/BlenderItaliaHub/Suzanne-Bot/issues/new" target="_blank">issue</a> del progetto su Github.<br /><br />
+            <b>Grazie e buon divertimento!!</b><br /><br />
+            <i>- Zanna</i>
+          </div>
+          <div class="vertical-line"></div>
+          <div class="d-flex flex-column">
+            <h5><b>Patch Notes</b></h5>
+            <code>14/07/2024 - Minor balance changes
+              
+- Decreased range
+- Increased damage
+            </code>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" id="save">Conferma</button>

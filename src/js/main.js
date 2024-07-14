@@ -1,8 +1,64 @@
+function addPatchNotes() {
+    $.ajax({
+        type: "GET",
+        url: "/src/json/patches.json",
+        data: "data",
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+
+            response.reverse();
+
+            var html = "";
+
+            if (response.length > 0) {
+                $.each(response, function(i, item) {
+                    html += item.title.toUpperCase() + " - " + item.date + " <br> <br> ";
+
+                    if (item.changes.features.length > 0) {
+                        html += "Features <br>";
+
+                        $.each(item.changes.features, function(i, feature) {
+                            html += "- " + feature + " <br>";
+                        })
+
+                        html += "<br>";
+                    }
+
+                    if (item.changes.fixes.length > 0) {
+                        html += "Fixes <br>";
+
+                        $.each(item.changes.fixes, function(i, fix) {
+                            html += "- " + fix + " <br>";
+                        })
+
+                        html += "<br>";
+                    }
+
+                    if (item.changes.balances.length > 0) {
+                        html += "Fixes <br>";
+
+                        $.each(item.changes.balances, function(i, balance) {
+                            html += "- " + balance + " <br>";
+                        })
+
+                        html += "<br>";
+                    }
+                })
+
+                if (html != "") {
+                    $("#modalStart code").html(html);
+                }
+            }
+        }
+    });
+}
+
+addPatchNotes();
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js'
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -145,6 +201,7 @@ $(document).ready(function(){
     var pause = false;
     var isTutorial = false;
     var firstEnemy = false;
+    var firstUpgrade = false;
     var tutLoading = false;
 
     $("#pauseBtn").off("click").on("click", function() {
@@ -224,6 +281,7 @@ $(document).ready(function(){
 
         isTutorial = $(".form-check input").is(":checked");
         firstEnemy = false;
+        firstUpgrade = false;
         tutLoading = false;
 
         heroSpeed = 45;
@@ -700,7 +758,6 @@ $(document).ready(function(){
                     $("#tutContainer").show();
 
                     var enPos = $("#ene" + idNemico).position();
-                    console.log(enPos)
 
                     var htmlDiv = "<div id='tutEnemy' class='position-absolute h-100 w-100 top-0' style='background-image: radial-gradient(circle at " + (enPos.left + 15) + "px " + (enPos.top + 18) + "px" + ", transparent 2.5vw, #0000005a 3vw);display:none;'></div>";
 
@@ -845,6 +902,11 @@ $(document).ready(function(){
             }
         })
         $(".money h2 span").html(parseInt(money));
+
+        if (money >= 5 && !firstUpgrade && isTutorial) {
+            firstUpgrade = true;
+            
+        }
     }
 
     function checkMagic() {

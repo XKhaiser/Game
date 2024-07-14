@@ -1,0 +1,17 @@
+[
+    {
+        "date": "2024-07-14",
+        "title": "Patch 0.0.1",
+        "changes": {
+            "features": [
+                "Aggiunte patch notes"
+            ],
+            "fixes": [
+                "Risolto qualche errore grafico del tutorial"
+            ],
+            "balances": [
+            ],
+            "descrizione": ""
+        }
+    }
+]

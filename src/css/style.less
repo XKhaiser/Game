@@ -1,11 +1,47 @@
 body {
     height: 100vh;
     overflow: hidden !important;
-    font-family: 'Teko', sans-serif;
+    font-family: 'Almendra', sans-serif;
+    font-weight: 500;
     background-image: url("../img/image.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    font-size: 1.165rem;
+
+    #modalStart {
+        .modal-body {
+            max-height: 57vh;
+
+            > div:not(.vertical-line) {
+                flex: 1;
+                position: relative;
+
+                &:last-child {
+
+                    code {
+                        position: relative;
+                        border: 1px solid #0003;
+                        background: #00000008;
+                        padding: 0.65rem;
+                        font-size: .85rem;
+                        border-radius: 10px;
+                        height: auto;
+                        width: 100%;
+                        display: block;
+                        white-space: pre-wrap;
+                        flex: auto;
+                        overflow: auto;
+                    }
+                }
+            }
+
+            .vertical-line {
+                border-left: 1px solid #0002;
+                position:relative;
+            }
+        }
+    }
 
     .menu {
         #profile {
@@ -103,6 +139,10 @@ body {
                     transform: translateY(-50%);
                     width: fit-content;
                     position: relative;
+
+                    > div {
+                        width: fit-content;
+                    }
                 }
             }
         }
