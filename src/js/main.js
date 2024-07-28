@@ -116,11 +116,12 @@ function trySampleRequest() {
             user = data;
             loadTopScoresFromFirebase().then(function (userScore) {
                 var existingUserIndex = userScore.findIndex(item => item.user.id === user.id);
-                console.log(existingUserIndex);
                 initMenu();
 
                 if (existingUserIndex !== -1) {
                     $(".form-check label").click();
+
+                    addScoreToFirebase(user, 0);
                 }
             });
         })
@@ -980,7 +981,7 @@ $(document).ready(function(){
 
         loadTopScoresFromFirebase().then(function(scores) {
             $.each(scores, function(i, point) {
-                if (i <= 9) {
+                if (i <= 9 && point.score > 0) {
                     var html = '<li class="list-group-item d-flex justify-content-between align-items-center gap-4"><h6>' + point.user.given_name + '</h6><h6>' + point.score + '</h6></li>';
 
                     $("#leaderboard").append(html);

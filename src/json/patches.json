@@ -14,5 +14,19 @@
             ],
             "descrizione": ""
         }
+    },
+    {
+        "date": "2024-07-28",
+        "title": "Patch 0.0.2",
+        "changes": {
+            "features": [
+            ],
+            "fixes": [
+                "Risolto un errore nel savataggio dei nuovi utenti"
+            ],
+            "balances": [
+            ],
+            "descrizione": ""
+        }
     }
 ]
