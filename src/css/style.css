@@ -318,20 +318,119 @@ body .game .hud .magic {
   color: violet;
   text-shadow: 0 0 3px #000;
 }
-body #cheats {
-  z-index: 10;
+body #cheats,
+body #rotatePhone {
+  z-index: 99999;
 }
-body #cheats > div {
+body #cheats > div,
+body #rotatePhone > div {
   background-image: url(../img/ezgif.com-animated-gif-maker.gif);
   background-size: cover;
   background-position: top center;
   color: white;
 }
-body #cheats > div .progress-bar {
+body #cheats > div .progress-bar,
+body #rotatePhone > div .progress-bar {
   transition: none !important;
+}
+body #cheats > div img,
+body #rotatePhone > div img {
+  filter: brightness(0.2) invert(1);
 }
 body #pauseMenu {
   background: #00000088;
   backdrop-filter: blur(3px);
   z-index: 99;
+}
+@media screen and (max-width: 1000px) {
+  #modalStart {
+    height: 100dvh;
+  }
+  #modalStart .modal-dialog {
+    width: 90dvw !important;
+    max-width: 90dvw;
+    height: 100dvh !important;
+    margin: 0 auto;
+  }
+  #modalStart .modal-dialog .overflow-auto {
+    font-size: 0.95rem;
+  }
+  #modalStart .modal-dialog .modal-header {
+    padding: 0.4rem 1rem;
+    padding-top: 0.6rem;
+  }
+  #modalStart .modal-dialog .modal-header .modal-title {
+    font-size: 1.3rem;
+  }
+  #modalStart .modal-dialog .modal-body {
+    padding: 0.8rem;
+  }
+  #modalStart .modal-dialog .modal-body h5 {
+    font-size: 1.1rem;
+  }
+  #modalStart .modal-dialog .modal-body code {
+    font-size: 0.75rem !important;
+  }
+  .menu #profile {
+    height: 16vh !important;
+  }
+  .menu .logo {
+    width: 30vw !important;
+  }
+  .menu #start {
+    width: 26vw;
+  }
+  .menu .card label {
+    font-size: 0.9rem;
+  }
+  .hud {
+    padding: 0.7vw !important;
+  }
+  .hud .bottom #btnHero button {
+    padding: 0.6rem !important;
+  }
+  .hud .bottom #btnHero button h5 {
+    font-size: 0.7rem;
+  }
+  .hud .bottom #btnHero button h2 {
+    font-size: 1rem;
+  }
+  .hud .bottom #btnHero button h6 {
+    font-size: 0.7rem;
+  }
+  .hud .bottom #btnHero button hr {
+    margin: 0.3rem 0 !important;
+  }
+  .hud .bottom h3 {
+    font-size: 1.1rem;
+  }
+  .hud .bottom .selUpgrade button {
+    font-size: 0.7rem;
+  }
+  .hud .currency * {
+    font-size: 1rem;
+  }
+  .hud .status {
+    width: 35% !important;
+  }
+  .hud #pause button {
+    font-size: 1rem;
+    padding: 0.8rem !important;
+  }
+  .hud .skills {
+    margin-bottom: 1.6rem;
+    gap: 0.3rem !important;
+    right: 0.7vw !important;
+  }
+  .hud .skills button {
+    padding: 0.2rem 1rem !important;
+  }
+  .hud .skills button * {
+    font-size: 0.7rem;
+    margin: 0;
+  }
+  .hud .skills button hr,
+  .hud .skills button h5 {
+    display: none;
+  }
 }

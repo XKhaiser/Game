@@ -28,5 +28,20 @@
             ],
             "descrizione": ""
         }
+    },
+    {
+        "date": "2024-07-30",
+        "title": "Patch 0.1.0",
+        "changes": {
+            "features": [
+                "Giocabile da mobile!"
+            ],
+            "fixes": [
+                "Risolto un errore nel savataggio dei nuovi utenti"
+            ],
+            "balances": [
+            ],
+            "descrizione": "Adesso sarà possibile giocare anche da mobile, purtroppo le prestazioni non sono il massimo, cercherò di sistemare anche questo aspetto nel tempo"
+        }
     }
 ]

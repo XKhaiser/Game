@@ -56,6 +56,29 @@ function addPatchNotes() {
 
 addPatchNotes();
 
+function rotatePhone() {
+    if ($(window).height() > $(window).width()) {
+        $("#rotatePhone").fadeIn();
+    } else {
+        $("#rotatePhone").fadeOut();
+        $("#save").on("click", function() {
+            var element = document.documentElement;
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) { // Firefox
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) { // IE/Edge
+                element.msRequestFullscreen();
+            }
+        })
+        
+    }
+}
+
+rotatePhone();
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js'
@@ -187,7 +210,7 @@ $(document).ready(function(){
 
     var tutorialCompleted = false;
 
-    $("#save").off("click").on("click", function() {
+    $("#save").on("click", function() {
         $('#modalStart').modal('hide');
     })
 
@@ -1030,8 +1053,10 @@ $(document).ready(function(){
             "height": (minDistance * 2) + "px"
         });
 
+        rotatePhone();
+
         if (activeGame)
-            noCheat();
+            pauseGame();
     });
 
     $(window).on('blur', function(){
@@ -1067,33 +1092,10 @@ $(document).ready(function(){
         })
     }
 
-    async function addScoreToFirebase(user, score) {
-        var campi = await loadTopScoresFromFirebase();
-
-        // Controlla se esiste già un oggetto con la stessa proprietà "user"
-        var existingUserIndex = campi.findIndex(item => item.user.id === user.id);
-
-        if (existingUserIndex !== -1) {
-            // Se l'utente esiste già, aggiorna il punteggio
-            if (campi[existingUserIndex].score <= score)
-                campi[existingUserIndex].score = score;
-        } else {
-            // Se l'utente non esiste, aggiungi un nuovo oggetto
-            campi.push({
-                "user": user,
-                "score": score
-            });
-        }
-
-        await setDoc(doc(db, "scores", "punteggi"), {
-            "scores": campi
-        });
-    }
-
     function pauseGame() {
 
         pause = true;
-        $("*").pause();
+        $("*:not(#rotatePhone)").pause();
 
         $("#pauseMenu").fadeIn();
 
@@ -1118,4 +1120,27 @@ async function loadTopScoresFromFirebase() {
         return b.score - a.score;
     }); // Ordina in modo decrescente
     return scores;
+}
+
+async function addScoreToFirebase(user, score) {
+    var campi = await loadTopScoresFromFirebase();
+
+    // Controlla se esiste già un oggetto con la stessa proprietà "user"
+    var existingUserIndex = campi.findIndex(item => item.user.id === user.id);
+
+    if (existingUserIndex !== -1) {
+        // Se l'utente esiste già, aggiorna il punteggio
+        if (campi[existingUserIndex].score <= score)
+            campi[existingUserIndex].score = score;
+    } else {
+        // Se l'utente non esiste, aggiungi un nuovo oggetto
+        campi.push({
+            "user": user,
+            "score": score
+        });
+    }
+
+    await setDoc(doc(db, "scores", "punteggi"), {
+        "scores": campi
+    });
 }

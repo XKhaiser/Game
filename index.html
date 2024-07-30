@@ -24,16 +24,16 @@
 <body class="w-100 body">
   <img class="position-absolute" src="src/img/hit.gif" style="opacity:0;z-index:-1;" />
   <div class="menu h-100">
-    <div class="h-100 w-100 d-flex align-items-center flex-column py-5 pe-5">
-      <img src="src/img/Risorsa 4.png"/>
-      <div class="card p-2 px-3 mt-auto mb-2">
+    <div class="h-100 w-100 d-flex align-items-center flex-column py-4 py-lg-5 pe-5">
+      <img class="logo" src="src/img/Risorsa 4.png"/>
+      <div class="card p-1 px-2 px-lg-3 py-lg-2 mt-auto mb-2">
         <div class="form-check form-switch mt-auto">
           <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" checked/>
           <label class="form-check-label" for="switchCheckDefault">Tutorial</label>
         </div>
       </div>
       <button class="btn disabled border-0" id="start">
-        <img class="img-fluid" src="src/img/Risorsa 3.png" />
+        <img class="img-fluid startBtn" src="src/img/Risorsa 3.png" />
       </button>
     </div>
     <a class="position-absolute d-none" href="https://paypal.me/ZANN4?country.x=IT&locale.x=it_IT" target="_blank">
@@ -196,6 +196,14 @@
       </div>
     </div>
   </div>
+  <div class="h-100 w-100 position-absolute top-0" id="rotatePhone" style="display:none;">
+    <div class="d-flex w-100 h-100 justify-content-center align-items-center">
+      <div class="text-center mw-50">
+        <h2><b>Ruota il telefono</b></h2>
+        <img src="src/img/rotate.gif" />
+      </div>
+    </div>
+  </div>
   <div class="position-absolute w-100 mt-5 top-0" style="display:none;" id="newLevel">
     <div class="d-block w-100 mt-5">
       <img class="d-block mx-auto w-25 mt-5" src="src/img/new_level.png">
@@ -214,7 +222,7 @@
           <h4 class="modal-title" id="modalStartLabel"><b>Benvenuto!</b></h4>
         </div>
         <div class="modal-body d-flex flex-row justify-content-between gap-3">
-          <div>
+          <div class="overflow-auto pe-3 pe-lg-0">
             Questo gioco è ancora in fase di sviluppo e quasi giornalmente ci saranno degli aggiornamenti per completare le funzionalità mancanti o migliorare quelle esistenti.<br /><br />
             Il gioco non è ancora ottimizzato per essere giocato sui telefoni, provalo su PC.<br /><br />
             Se stai riscontrando dei problemi o hai dei suggerimenti ti chiedo gentilmente di scriverlo nella sezione <a href="https://github.com/BlenderItaliaHub/Suzanne-Bot/issues/new" target="_blank">issue</a> del progetto su Github.<br /><br />

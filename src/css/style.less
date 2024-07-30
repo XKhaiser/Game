@@ -400,8 +400,8 @@ body {
         }
     }
 
-    #cheats {
-        z-index: 10;
+    #cheats, #rotatePhone {
+        z-index: 99999;
         > div {
             background-image: url(../img/ezgif.com-animated-gif-maker.gif);
             background-size: cover;
@@ -411,6 +411,10 @@ body {
             .progress-bar {
                 transition: none !important;
             }
+
+            img {
+                filter: brightness(.2) invert(1);
+            }
         }
     }
 
@@ -418,5 +422,138 @@ body {
         background: #00000088;
         backdrop-filter: blur(3px);
         z-index: 99;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    #modalStart {
+        height: 100dvh;
+
+        .modal-dialog {
+            width: 90dvw !important;
+            max-width: 90dvw;
+            height: 100dvh !important;
+            margin: 0 auto;
+
+            .overflow-auto {
+                font-size: .95rem;
+            }
+
+            .modal-header {
+                padding: .4rem 1rem;
+                padding-top: .6rem;
+                
+                .modal-title {
+                    font-size: 1.3rem;
+                }
+            }
+
+            .modal-body {
+                padding: .8rem;
+
+                h5 {
+                    font-size: 1.1rem;
+                }
+
+                code {
+                    font-size: .75rem !important;
+                }
+            }
+        }
+    }
+
+    .menu {
+
+        #profile {
+            height: 16vh !important;
+        }
+
+        .logo {
+            width: 30vw !important;
+        }
+
+        #start {
+            width: 26vw;
+        }
+
+        .card {
+            label {
+                font-size: 0.9rem;
+            }
+        }
+    }
+
+    .hud {
+        padding: .7vw !important;
+
+        .bottom {
+            #btnHero {
+                button {
+                    padding: .6rem !important;
+
+                    h5 {
+                        font-size: .7rem;
+                    }
+
+                    h2 {
+                        font-size: 1rem;
+                    }
+
+                    h6 {
+                        font-size: .7rem;
+                    }
+
+                    hr {
+                        margin: .3rem 0 !important;
+                    }
+                }
+            }
+
+            h3 {
+                font-size: 1.1rem;
+            }
+
+            .selUpgrade {
+                button {
+                    font-size: .7rem;
+                }
+            }
+        }
+
+        .currency {
+            * {
+                font-size: 1rem;
+            }
+        }
+
+        .status {
+            width: 35% !important;
+        }
+
+        #pause {
+            button {
+                font-size: 1rem;
+                padding: .8rem !important;
+            }
+        }
+
+        .skills {
+            margin-bottom: 1.6rem;
+            gap: .3rem !important;
+            right: .7vw !important;
+
+            button {
+                padding: .2rem 1rem !important;
+
+                * {
+                    font-size: .7rem;
+                    margin: 0;
+                }
+
+                hr, h5 {
+                    display: none;
+                }
+            }
+        }
     }
 }
