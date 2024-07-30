@@ -433,4 +433,12 @@ body #pauseMenu {
   .hud .skills button h5 {
     display: none;
   }
+  #tutEnemy > div {
+    left: 4% !important;
+    top: 46% !important;
+  }
+  #tutEnemy > div > div {
+    padding: 0.9rem !important;
+    font-size: 0.8rem !important;
+  }
 }
