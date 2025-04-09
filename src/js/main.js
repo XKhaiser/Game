@@ -1,7 +1,7 @@
 async function testServer () {
     var currentUserID = 1;
     try {
-        const response = await fetch('https://188.216.235.20:3000/action', {
+        const response = await fetch('https://b678-188-216-235-20.ngrok-free.app/action', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: 'getUserCharacters', currentUserID })
