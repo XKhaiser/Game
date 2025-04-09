@@ -1,3 +1,23 @@
+async function testServer () {
+    var currentUserID = 1;
+    try {
+        const response = await fetch('188.216.235.20:3000/action', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'getUserCharacters', currentUserID })
+        });
+  
+        const result = await response.json();
+
+        console.log(result);
+        
+      } catch (error) {
+        console.error('Errore:', error);
+      }
+}
+
+testServer();
+
 function addPatchNotes() {
     $.ajax({
         type: "GET",
