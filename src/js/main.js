@@ -4,7 +4,7 @@ async function testServer () {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                action: 'getUserCharacters', // L'azione che desideri eseguire
+                action: 'getUserByGId', // L'azione che desideri eseguire
                 dbKey: 'TDGameDB',        // Aggiungi qui il dbKey
                 gId: "116534233796875201726"               // Il resto dei parametri
             })
