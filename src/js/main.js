@@ -1,10 +1,13 @@
 async function testServer () {
-    var currentUserID = 1;
     try {
         const response = await fetch('https://b678-188-216-235-20.ngrok-free.app/action', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'getUserCharacters', currentUserID })
+            body: JSON.stringify({
+                action: 'getUserCharacters', // L'azione che desideri eseguire
+                dbKey: 'TDGameDB',        // Aggiungi qui il dbKey
+                gId: "116534233796875201726"               // Il resto dei parametri
+            })
         });
   
         const result = await response.json();
