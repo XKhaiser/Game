@@ -1,25 +1,4 @@
-async function testServer () {
-    try {
-        const response = await fetch('https://valued-separately-duck.ngrok-free.app/action', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                action: 'getUserByGId', // L'azione che desideri eseguire
-                dbKey: 'TDGameDB',        // Aggiungi qui il dbKey
-                gId: "116534233796875201726"               // Il resto dei parametri
-            })
-        });
-  
-        const result = await response.json();
-
-        console.log(result);
-        
-      } catch (error) {
-        console.error('Errore:', error);
-      }
-}
-
-testServer();
+const dbKey = "TDGameDB";
 
 function addPatchNotes() {
     $.ajax({
@@ -102,31 +81,6 @@ function rotatePhone() {
 
 rotatePhone();
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getFirestore, collection, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js'
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAgY29cfeSbp44zbY_VQQcCeIbCobQQELc",
-  authDomain: "game-710e5.firebaseapp.com",
-  projectId: "game-710e5",
-  storageBucket: "game-710e5.appspot.com",
-  messagingSenderId: "161097367088",
-  appId: "1:161097367088:web:149ae6524541de6e0ab7f5"
-};
-
-// Initialize Firebase
-const firebase = initializeApp(firebaseConfig);
-
-var db = getFirestore(firebase);
-
-var YOUR_CLIENT_ID = '368381369169-v4rlubsvcj6sj6m9eoqs9hdm9ukoes9u.apps.googleusercontent.com';
-var YOUR_REDIRECT_URI = location.href.replace("/#", "");
-console.log(YOUR_REDIRECT_URI)
-var fragmentString = location.hash.substring(1);
-var user;
-
 // Parse query string to see if page request is coming from OAuth 2.0 server.
 var params = {};
 var regex = /([^&=]+)=([^&]*)/g, m;
@@ -167,7 +121,7 @@ function trySampleRequest() {
                 if (existingUserIndex !== -1) {
                     $(".form-check label").click();
 
-                    addScoreToFirebase(user, 0);
+                    addScoreToDatabase(user, 0);
                 }
             });
         })
@@ -1130,40 +1084,52 @@ $(document).ready(function(){
     }
  });
 
-async function loadTopScoresFromFirebase() {
-    const docRef = doc(db, "scores", "punteggi");
-    const docSnap = await getDoc(docRef);
-    var data = docSnap.data().scores;
-    const scores = [];
-    data.forEach(childSnapshot => {
-        const score = childSnapshot;
-        scores.push(score);
-    });
-    scores.sort(function (a, b) {
-        return b.score - a.score;
-    }); // Ordina in modo decrescente
-    return scores;
+async function loadTopScores() {
+    try {
+        var params = {};
+            params.action = "getTopScores";
+            params.dbKey = dbKey;
+
+        const response = await fetch('https://valued-separately-duck.ngrok-free.app/action', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(params)
+        });
+  
+        const result = await response.json();
+        console.log(result)
+
+        let scores = result;
+
+        return scores;
+        
+    } catch (error) {
+        console.error('Errore:', error);
+    }
 }
 
-async function addScoreToFirebase(user, score) {
-    var campi = await loadTopScoresFromFirebase();
+async function addScoreToDatabase(user, score) {
+    try {
+        var params = {};
+            params.action = "updateScore";
+            params.dbKey = dbKey;
+            params.idUtente = user;
+            params.score = score;
 
-    // Controlla se esiste già un oggetto con la stessa proprietà "user"
-    var existingUserIndex = campi.findIndex(item => item.user.id === user.id);
-
-    if (existingUserIndex !== -1) {
-        // Se l'utente esiste già, aggiorna il punteggio
-        if (campi[existingUserIndex].score <= score)
-            campi[existingUserIndex].score = score;
-    } else {
-        // Se l'utente non esiste, aggiungi un nuovo oggetto
-        campi.push({
-            "user": user,
-            "score": score
+        const response = await fetch('https://valued-separately-duck.ngrok-free.app/action', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(params)
         });
-    }
+  
+        const result = await response.json();
+        console.log(result)
 
-    await setDoc(doc(db, "scores", "punteggi"), {
-        "scores": campi
-    });
+        let scores = result;
+
+        return scores;
+        
+    } catch (error) {
+        console.error('Errore:', error);
+    }
 }
