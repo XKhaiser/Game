@@ -1145,6 +1145,7 @@ async function login (user) {
 
         const result = await response.json();
         console.log(result);
+        initMenu();
     } catch (error) {
         console.error('Errore:', error);
     }
