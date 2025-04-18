@@ -1,4 +1,8 @@
 const dbKey = "TDGameDB";
+var YOUR_REDIRECT_URI = location.href.replace("/#", "");
+console.log(YOUR_REDIRECT_URI)
+var fragmentString = location.hash.substring(1);
+var user;
 
 function addPatchNotes() {
     $.ajax({
