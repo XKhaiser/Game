@@ -114,16 +114,7 @@ function trySampleRequest() {
         .then(data => {
             console.log(data);
             user = data;
-            loadTopScoresFromFirebase().then(function (userScore) {
-                var existingUserIndex = userScore.findIndex(item => item.user.id === user.id);
-                initMenu();
-
-                if (existingUserIndex !== -1) {
-                    $(".form-check label").click();
-
-                    addScoreToDatabase(user, 0);
-                }
-            });
+            login(user);
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
@@ -1129,6 +1120,26 @@ async function addScoreToDatabase(user, score) {
 
         return scores;
         
+    } catch (error) {
+        console.error('Errore:', error);
+    }
+}
+
+async function login (user) {
+    try {
+        var params = {};
+        params.action = "createUser";
+        params.dbKey = dbKey;
+        params.user = user;
+
+        const response = await fetch('https://valued-separately-duck.ngrok-free.app/action', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(params)
+        });
+
+        const result = await response.json();
+        console.log(result);
     } catch (error) {
         console.error('Errore:', error);
     }
