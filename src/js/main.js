@@ -948,7 +948,7 @@ $(document).ready(function(){
 
             if (activeGame && dead) return;
             dead = true;
-            addScoreToFirebase(user, score).then(function() {
+            addScoreToDatabase(user, score).then(function() {
                 youDied();
             });
         }
