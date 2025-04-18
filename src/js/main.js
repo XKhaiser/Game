@@ -1,4 +1,5 @@
 const dbKey = "TDGameDB";
+var YOUR_CLIENT_ID = '368381369169-v4rlubsvcj6sj6m9eoqs9hdm9ukoes9u.apps.googleusercontent.com';
 var YOUR_REDIRECT_URI = location.href.replace("/#", "");
 console.log(YOUR_REDIRECT_URI)
 var fragmentString = location.hash.substring(1);
